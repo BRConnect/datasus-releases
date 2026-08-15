@@ -24,3 +24,8 @@
 - [x] Implementar alternância de tema e preferências persistentes.
 - [x] Reforçar navegação por teclado, foco, semântica e contraste.
 - [x] Validar layouts responsivos e publicar a melhoria no GitHub.
+- [x] Auditar metadados, arquivos de rastreamento e URL canônica atuais.
+- [x] Criar favicon e imagem de compartilhamento local.
+- [x] Adicionar SEO técnico, Open Graph, Twitter e dados estruturados.
+- [x] Validar a compilação e os endpoints públicos de SEO.
+- [ ] Publicar a atualização no GitHub e orientar a indexação.
