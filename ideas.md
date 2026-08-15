@@ -66,3 +66,9 @@ O símbolo é uma **pasta de arquivo geométrica** formada por três blocos sobr
 ### Cor de assinatura
 
 **Verde Prontuário — `#0A5B4A`**. Uma cor profunda, sóbria e memorável para ações principais e marcas de atualização.
+
+## Decisões de estilo
+
+1. As ações de download identificam sempre o artefato e seu tamanho no padrão **“Baixar [arquivo] · [tamanho]”**.
+2. Cada ficha de release repete um marcador Verde Prontuário, uma barra laranja-argila, um código monoespaçado e um selo de rastreio para tornar a origem verificável à primeira leitura.
+3. Em telas desktop, a lista mantém a separação editorial entre uma coluna estreita de metadados de acervo, a coluna principal do arquivo e a área de retirada/auditoria.
