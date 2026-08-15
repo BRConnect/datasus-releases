@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 260" role="img" aria-label="Ilustração do acervo BPA">
+  <rect width="360" height="260" fill="#E9E1D1"/>
+  <path d="M71 47h218v167H71z" fill="#F7F3EB" stroke="#0A5B4A" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M71 87h218M126 47v167m94-167v167" stroke="#0A5B4A" stroke-opacity=".18" stroke-width="2"/>
+  <path d="M91 111h19m-19 28h19m-19 28h19m56-56h36m-36 28h36m-36 28h36m82-56h22m-22 28h22m-22 28h22" stroke="#0A5B4A" stroke-opacity=".30" stroke-width="6"/>
+  <rect x="71" y="47" width="55" height="40" fill="#C86B42" fill-opacity=".22"/>
+  <circle cx="272" cy="69" r="9" fill="#0A5B4A"/>
+</svg>

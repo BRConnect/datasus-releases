@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Marca DATASUS Releases">
+  <rect width="64" height="64" fill="#0A5B4A"/>
+  <path d="M12 19h18l5 6h17v24H12z" fill="#F7F3EB"/>
+  <path d="M18 34h28v4H18z" fill="#C86B42"/>
+  <path d="M32 27v12m-5-5 5 5 5-5" fill="none" stroke="#0A5B4A" stroke-linecap="square" stroke-width="2.5"/>
+</svg>

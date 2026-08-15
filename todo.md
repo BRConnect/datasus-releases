@@ -13,3 +13,9 @@
 - [x] Fazer o site consultar releases atuais da API pública do GitHub.
 - [x] Garantir que o workflow publique e mantenha o manifesto das últimas versões.
 - [x] Validar a execução local com Bun e a compatibilidade de comandos para Windows e Linux.
+- [x] Mapear e remover referências restantes a imagens e ícones externos.
+- [x] Criar ativos SVG locais na pasta pública de assets.
+- [x] Atualizar a interface, o rodapé e os metadados para produção.
+- [x] Escrever README profissional em pt-BR e adicionar licença Apache-2.0.
+- [x] Validar compilação, desempenho e compatibilidade com Vercel.
+- [x] Publicar as alterações no GitHub.

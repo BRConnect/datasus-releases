@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 260" role="img" aria-label="Ilustração do acervo SIH">
+  <rect width="360" height="260" fill="#E9E1D1"/>
+  <path d="M68 43h130l24 25h71v147H68z" fill="#F7F3EB" stroke="#0A5B4A" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M91 101h165m-165 24h165m-165 24h108m-108 24h143" stroke="#0A5B4A" stroke-opacity=".22" stroke-width="5"/>
+  <rect x="91" y="183" width="63" height="15" fill="#0A5B4A" fill-opacity=".12"/>
+  <rect x="163" y="183" width="93" height="15" fill="#C86B42" fill-opacity=".25"/>
+  <path d="M251 56v48m-14-14 14 14 14-14" fill="none" stroke="#0A5B4A" stroke-width="4"/>
+</svg>

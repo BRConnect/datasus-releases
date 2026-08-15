@@ -1,9 +1,9 @@
 /**
  * Direção visual: Arquivo de Serviço Público — ficha com código auditável, marcadores de acervo e retirada identificada.
  */
-import { ArrowDownToLine, ExternalLink, FileArchive, FileCheck2, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
+import { LocalIcon } from "@/components/local-icon";
 import type { ReleaseItem } from "@/lib/releases";
 
 type ReleaseCardProps = { release: ReleaseItem; index: number };
@@ -27,13 +27,13 @@ export function ReleaseCard({ release, index }: ReleaseCardProps) {
           <span className="h-px flex-1 bg-[#1c2724]/18 md:hidden" />
         </div>
         <div className="mt-0 flex h-10 w-10 shrink-0 items-center justify-center border border-[#0a5b4a]/20 bg-[#0a5b4a]/[0.045] text-[#0a5b4a] md:mt-4">
-          <FileArchive size={18} strokeWidth={1.6} aria-hidden="true" />
+          <LocalIcon name="file" className="h-[18px] w-[18px]" />
         </div>
         <div className="min-w-0 md:mt-3">
           <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#69736c]">FICHA</p>
           <p className="mt-0.5 truncate font-mono text-[10px] font-medium tracking-[0.03em] text-[#0a5b4a]">{catalogCode}</p>
           <p className="mt-1.5 inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-[0.1em] text-[#69736c]">
-            <ShieldCheck size={11} className="text-[#0a5b4a]" /> {isGitHubRelease ? "Íntegra publicada" : "Fonte visível"}
+            <LocalIcon name="verified" className="h-[11px] w-[11px]" /> {isGitHubRelease ? "Íntegra publicada" : "Fonte visível"}
           </p>
         </div>
       </aside>
@@ -77,7 +77,7 @@ export function ReleaseCard({ release, index }: ReleaseCardProps) {
           rel="noreferrer"
           aria-label={actionLabel}
         >
-          {isGitHubRelease ? <FileCheck2 className="shrink-0" size={15} /> : <ArrowDownToLine className="shrink-0" size={15} />}
+          <LocalIcon name="download" className="h-[15px] w-[15px] shrink-0" />
           <span className="max-w-52 text-left">{actionLabel}</span>
         </a>
         <a
@@ -88,7 +88,7 @@ export function ReleaseCard({ release, index }: ReleaseCardProps) {
           aria-label={`Auditar fonte oficial de ${release.filename}`}
           title="Auditar fonte oficial"
         >
-          <ExternalLink size={15} />
+          <LocalIcon name="external" className="h-[15px] w-[15px]" />
         </a>
       </div>
     </article>

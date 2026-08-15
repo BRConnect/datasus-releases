@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 260" role="img" aria-label="Ilustração do acervo SIA">
+  <rect width="360" height="260" fill="#E9E1D1"/>
+  <rect x="70" y="50" width="220" height="161" fill="#F7F3EB" stroke="#0A5B4A" stroke-opacity=".35" stroke-width="2"/>
+  <rect x="88" y="71" width="184" height="24" fill="#0A5B4A" fill-opacity=".12"/>
+  <path d="M99 120h42v11H99zm60 0h42v11h-42zm60 0h42v11h-42zM99 150h42v11H99zm60 0h42v11h-42zm60 0h42v11h-42zM99 180h42v11H99zm60 0h42v11h-42zm60 0h42v11h-42z" fill="#0A5B4A" fill-opacity=".26"/>
+  <path d="M70 50h55l14 16h151" fill="none" stroke="#C86B42" stroke-width="4"/>
+</svg>

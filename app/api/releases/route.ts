@@ -9,6 +9,7 @@ import type { ProgramId, ReleaseItem, ReleasesPayload } from "@/lib/releases";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 300;
+export const runtime = "nodejs";
 
 type GitHubAsset = { name: string; size: number; browser_download_url: string; updated_at: string };
 type GitHubRelease = {
