@@ -30,3 +30,4 @@
 - [x] Validar a compilação e os endpoints públicos de SEO.
 - [ ] Publicar a atualização no GitHub e orientar a indexação.
 - [x] Atualizar o Next.js para uma versão segura e desbloquear a implantação na Vercel.
+- [x] Integrar Web Analytics e Speed Insights da Vercel ao aplicativo.
