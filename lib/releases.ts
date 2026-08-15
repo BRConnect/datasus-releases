@@ -1,0 +1,84 @@
+/** Modelo de dados para o arquivo público de versões do catálogo DATASUS. */
+export type ProgramId = "SISAIH01" | "BPA" | "SIA";
+
+export type ReleaseItem = {
+  id: string;
+  program: ProgramId;
+  programName: string;
+  version: string;
+  filename: string;
+  size: string;
+  sourceUrl: string;
+  downloadUrl: string;
+  sourcePage: string;
+  publishedLabel: string;
+  competence?: string;
+  delivery: "github-release" | "official-source";
+};
+
+export type ReleasesPayload = {
+  generatedAt: string;
+  repository: string;
+  releases: ReleaseItem[];
+};
+
+export const initialReleases: ReleasesPayload = {
+  generatedAt: "2026-08-15T14:28:00.000Z",
+  repository: "BRConnect/datasus-releases",
+  releases: [
+    {
+      id: "sisaih01-25-10",
+      program: "SISAIH01",
+      programName: "Sistema de Informações Hospitalares",
+      version: "25.10",
+      filename: "sisaih01_ver2510.exe",
+      size: "Disponível na fonte oficial",
+      sourceUrl: "ftp://ftp2.datasus.gov.br/public/sistemas/dsweb/SIHD/Programas/sisaih01_ver2510.exe",
+      downloadUrl: "ftp://ftp2.datasus.gov.br/public/sistemas/dsweb/SIHD/Programas/sisaih01_ver2510.exe",
+      sourcePage: "http://sihd.datasus.gov.br/versao/versao_sisaih01.php",
+      publishedLabel: "Competência 07/2026",
+      competence: "07/2026",
+      delivery: "official-source"
+    },
+    {
+      id: "sisaih01-25-11",
+      program: "SISAIH01",
+      programName: "Sistema de Informações Hospitalares",
+      version: "25.11",
+      filename: "sisaih01_ver2511.exe",
+      size: "Disponível na fonte oficial",
+      sourceUrl: "ftp://ftp2.datasus.gov.br/public/sistemas/dsweb/SIHD/Programas/sisaih01_ver2511.exe",
+      downloadUrl: "ftp://ftp2.datasus.gov.br/public/sistemas/dsweb/SIHD/Programas/sisaih01_ver2511.exe",
+      sourcePage: "http://sihd.datasus.gov.br/versao/versao_sisaih01.php",
+      publishedLabel: "Competência 07/2026",
+      competence: "07/2026",
+      delivery: "official-source"
+    },
+    {
+      id: "bpa-0500",
+      program: "BPA",
+      programName: "Boletim de Produção Ambulatorial",
+      version: "05.00",
+      filename: "BPAMAG0500.exe",
+      size: "7,4 MB",
+      sourceUrl: "ftp://arpoador.datasus.gov.br/siasus/BPA/BPAMAG0500.exe",
+      downloadUrl: "ftp://arpoador.datasus.gov.br/siasus/BPA/BPAMAG0500.exe",
+      sourcePage: "https://sia.datasus.gov.br/versao/listar_ftp_bpa.php",
+      publishedLabel: "09 jul. 2026",
+      delivery: "official-source"
+    },
+    {
+      id: "sia-202607b",
+      program: "SIA",
+      programName: "Banco de Dados do SIA",
+      version: "2026.07b",
+      filename: "BDSIA202607b.exe",
+      size: "9,3 MB",
+      sourceUrl: "ftp://arpoador.datasus.gov.br/siasus/sia/BDSIA202607b.exe",
+      downloadUrl: "ftp://arpoador.datasus.gov.br/siasus/sia/BDSIA202607b.exe",
+      sourcePage: "https://sia.datasus.gov.br/versao/listar_ftp_sia.php",
+      publishedLabel: "13 ago. 2026",
+      delivery: "official-source"
+    }
+  ]
+};

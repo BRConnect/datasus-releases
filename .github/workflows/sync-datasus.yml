@@ -1,0 +1,48 @@
+name: Sincronizar releases DATASUS
+
+on:
+  schedule:
+    # 07:00 em Brasília (UTC-3).
+    - cron: "0 10 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: datasus-release-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Obter código do catálogo
+        uses: actions/checkout@v4
+
+      - name: Preparar Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.21"
+
+      - name: Instalar dependências
+        run: bun install --frozen-lockfile
+
+      - name: Consultar fontes, baixar e publicar releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: bun run sync:datasus
+
+      - name: Atualizar manifesto do site
+        run: |
+          if git diff --quiet -- public/releases.json; then
+            echo "Manifesto sem alterações."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/releases.json
+          git commit -m "chore: sincronizar releases DATASUS"
+          git push
