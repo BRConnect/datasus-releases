@@ -29,3 +29,4 @@
 - [x] Adicionar SEO técnico, Open Graph, Twitter e dados estruturados.
 - [x] Validar a compilação e os endpoints públicos de SEO.
 - [ ] Publicar a atualização no GitHub e orientar a indexação.
+- [x] Atualizar o Next.js para uma versão segura e desbloquear a implantação na Vercel.
