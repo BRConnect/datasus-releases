@@ -1,7 +1,35 @@
 {
-  "generatedAt": "2026-08-15T11:48:07.324Z",
+  "generatedAt": "2026-08-15T11:49:43.000Z",
   "repository": "BRConnect/datasus-releases",
   "releases": [
+    {
+      "id": "sisaih01-25-10",
+      "program": "SISAIH01",
+      "programName": "Sistema de Informações Hospitalares",
+      "version": "25.10",
+      "filename": "Vers�o 25.10",
+      "size": "Conforme arquivo oficial",
+      "sourceUrl": "ftp://ftp2.datasus.gov.br/public/sistemas/dsweb/SIHD/Programas/sisaih01_ver2510.exe",
+      "sourcePage": "http://sihd.datasus.gov.br/versao/versao_sisaih01.php",
+      "publishedLabel": "Competência 07/2026",
+      "competence": "07/2026",
+      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sih-sisaih01-07-2026-v25-10-25-11/Vers�o 25.10",
+      "delivery": "github-release"
+    },
+    {
+      "id": "sisaih01-25-11",
+      "program": "SISAIH01",
+      "programName": "Sistema de Informações Hospitalares",
+      "version": "25.11",
+      "filename": "Vers�o 25.11",
+      "size": "Conforme arquivo oficial",
+      "sourceUrl": "ftp://ftp2.datasus.gov.br/public/sistemas/dsweb/SIHD/Programas/sisaih01_ver2511.exe",
+      "sourcePage": "http://sihd.datasus.gov.br/versao/versao_sisaih01.php",
+      "publishedLabel": "Competência 07/2026",
+      "competence": "07/2026",
+      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sih-sisaih01-07-2026-v25-10-25-11/Vers�o 25.11",
+      "delivery": "github-release"
+    },
     {
       "id": "bpa-05-00",
       "program": "BPA",
@@ -27,34 +55,6 @@
       "publishedLabel": "13-Aug-2026",
       "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sia-bd-202607b/BDSIA202607b.exe",
       "delivery": "github-release"
-    },
-    {
-      "id": "sisaih01-25-10",
-      "program": "SISAIH01",
-      "programName": "Sistema de Informações Hospitalares",
-      "version": "25.10",
-      "filename": "sisaih01_ver2510.exe",
-      "size": "Disponível na fonte oficial",
-      "sourceUrl": "ftp://ftp2.datasus.gov.br/public/sistemas/dsweb/SIHD/Programas/sisaih01_ver2510.exe",
-      "downloadUrl": "ftp://ftp2.datasus.gov.br/public/sistemas/dsweb/SIHD/Programas/sisaih01_ver2510.exe",
-      "sourcePage": "http://sihd.datasus.gov.br/versao/versao_sisaih01.php",
-      "publishedLabel": "Competência 07/2026",
-      "competence": "07/2026",
-      "delivery": "official-source"
-    },
-    {
-      "id": "sisaih01-25-11",
-      "program": "SISAIH01",
-      "programName": "Sistema de Informações Hospitalares",
-      "version": "25.11",
-      "filename": "sisaih01_ver2511.exe",
-      "size": "Disponível na fonte oficial",
-      "sourceUrl": "ftp://ftp2.datasus.gov.br/public/sistemas/dsweb/SIHD/Programas/sisaih01_ver2511.exe",
-      "downloadUrl": "ftp://ftp2.datasus.gov.br/public/sistemas/dsweb/SIHD/Programas/sisaih01_ver2511.exe",
-      "sourcePage": "http://sihd.datasus.gov.br/versao/versao_sisaih01.php",
-      "publishedLabel": "Competência 07/2026",
-      "competence": "07/2026",
-      "delivery": "official-source"
     }
   ]
 }
