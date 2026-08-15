@@ -11,5 +11,5 @@
 - [x] Remover dependências, rotas e referências específicas da plataforma atual.
 - [x] Criar configuração pública para repositório de origem em forks.
 - [x] Fazer o site consultar releases atuais da API pública do GitHub.
-- [ ] Garantir que o workflow publique e mantenha o manifesto das últimas versões.
-- [ ] Validar a execução local com Bun em Windows e Linux.
+- [x] Garantir que o workflow publique e mantenha o manifesto das últimas versões.
+- [x] Validar a execução local com Bun e a compatibilidade de comandos para Windows e Linux.
