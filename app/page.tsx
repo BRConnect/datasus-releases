@@ -78,7 +78,7 @@ export default function Home() {
             <img src="/assets/brand-mark.svg" alt="" aria-hidden="true" className="h-10 w-10 shrink-0" width="40" height="40" />
             <span className="min-w-0 leading-none">
               <span className="brand-name">DATASUS</span>
-              <span className="brand-subtitle">releases</span>
+              <span className="brand-subtitle">releases / catálogo</span>
             </span>
           </a>
 
@@ -104,6 +104,12 @@ export default function Home() {
               <a href="#acervo" className="primary-link">Consultar arquivos <LocalIcon name="arrow-up-right" className="h-4 w-4 icon-on-accent" /></a>
               <span className="hero-note">Atualização automática · 07:00 BRT</span>
             </div>
+          </div>
+          <div className="hero-monitor" aria-hidden="true">
+            <p>faixa de monitoramento / 03</p>
+            <div><span>Fontes</span><strong>SIH · BPA · SIA</strong></div>
+            <div><span>Consulta</span><strong>Diária · 07:00 BRT</strong></div>
+            <div><span>Entrega</span><strong>Release pública / HTTPS</strong></div>
           </div>
         </div>
       </section>
@@ -189,6 +195,11 @@ export default function Home() {
         <div className="footer-main">
           <p><LocalIcon name="archive" className="h-[18px] w-[18px]" />Catálogo independente de consulta. Fontes e arquivos pertencem aos respectivos órgãos oficiais.</p>
           <div className="footer-tags"><span><LocalIcon name="check" className="h-[13px] w-[13px]" />rastreável</span><span><LocalIcon name="clock" className="h-[13px] w-[13px]" />diário</span><span><LocalIcon name="database" className="h-[13px] w-[13px]" />público</span></div>
+        </div>
+        <div className="footer-legal">
+          <span>Informações legais</span>
+          <a href="/termos">Termos de Uso</a>
+          <a href="/privacidade">Política de Privacidade</a>
         </div>
         <p className="copyright">© 2026–{currentYear} <a href="https://github.com/stivan-lucas" target="_blank" rel="noreferrer">Lucas Camargo Stivan</a>. Todos os direitos reservados.</p>
       </footer>

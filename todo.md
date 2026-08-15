@@ -31,3 +31,4 @@
 - [ ] Publicar a atualização no GitHub e orientar a indexação.
 - [x] Atualizar o Next.js para uma versão segura e desbloquear a implantação na Vercel.
 - [x] Integrar Web Analytics e Speed Insights da Vercel ao aplicativo.
+- [x] Criar Termos de Uso e Política de Privacidade com versão para impressão e links no rodapé.

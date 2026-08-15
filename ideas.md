@@ -72,3 +72,6 @@ O símbolo é uma **pasta de arquivo geométrica** formada por três blocos sobr
 1. As ações de download identificam sempre o artefato e seu tamanho no padrão **“Baixar [arquivo] · [tamanho]”**.
 2. Cada ficha de release repete um marcador Verde Prontuário, uma barra laranja-argila, um código monoespaçado e um selo de rastreio para tornar a origem verificável à primeira leitura.
 3. Em telas desktop, a lista mantém a separação editorial entre uma coluna estreita de metadados de acervo, a coluna principal do arquivo e a área de retirada/auditoria.
+4. Títulos, hero, nomes de documentos e a marca utilizam DM Serif Display de modo inequívoco; IBM Plex Sans atende à navegação e ao corpo, enquanto IBM Plex Mono identifica rótulos e códigos de acervo.
+5. A assinatura visual combina o símbolo de pasta com “DATASUS” editorial e “RELEASES / CATÁLOGO” monoespaçado, evitando um wordmark de navegação genérico.
+6. Documentos legais seguem a linguagem de fichas públicas: código de registro, régua de catálogo, marcador verde/laranja e índice documental, sem se comportar como uma página jurídica desconectada.
