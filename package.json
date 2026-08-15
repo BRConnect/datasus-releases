@@ -2,7 +2,7 @@
   "name": "datasus-releases",
   "version": "1.0.0",
   "private": true,
-  "packageManager": "bun@1.2.21",
+  "packageManager": "pnpm@10.4.1",
   "engines": {
     "node": ">=20.9.0",
     "bun": ">=1.2.21"
