@@ -14,6 +14,8 @@ export type LocalIconName =
   | "file"
   | "github"
   | "refresh"
+  | "moon"
+  | "sun"
   | "verified";
 
 type LocalIconProps = Omit<ImgHTMLAttributes<HTMLImageElement>, "src"> & {

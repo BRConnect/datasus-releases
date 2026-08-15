@@ -14,12 +14,19 @@ export const metadata: Metadata = {
   keywords: ["DATASUS", "SISAIH01", "BPA", "SIA", "releases", "HTTPS", "saúde"],
   icons: { icon: "/assets/brand-mark.svg" },
   robots: { index: true, follow: true },
-  other: { "color-scheme": "light" },
+  other: { "color-scheme": "light dark" },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(() => { try { const saved = localStorage.getItem('datasus-releases-theme'); const theme = saved === 'dark' || saved === 'light' ? saved : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; document.documentElement.dataset.theme = theme; document.documentElement.style.colorScheme = theme; } catch (_) {} })();`,
+          }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

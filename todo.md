@@ -19,3 +19,8 @@
 - [x] Escrever README profissional em pt-BR e adicionar licença Apache-2.0.
 - [x] Validar compilação, desempenho e compatibilidade com Vercel.
 - [x] Publicar as alterações no GitHub.
+- [x] Auditar overflow, leitura e interação em desktop e dispositivos móveis.
+- [x] Definir tokens semânticos para os temas claro e escuro.
+- [x] Implementar alternância de tema e preferências persistentes.
+- [x] Reforçar navegação por teclado, foco, semântica e contraste.
+- [x] Validar layouts responsivos e publicar a melhoria no GitHub.
