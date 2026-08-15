@@ -8,3 +8,8 @@
 - [x] Criar o sincronizador e o agendamento diário no GitHub Actions.
 - [x] Testar o fluxo local e validar a publicação inicial.
 - [ ] Criar checkpoint e entregar o projeto com instruções.
+- [x] Remover dependências, rotas e referências específicas da plataforma atual.
+- [x] Criar configuração pública para repositório de origem em forks.
+- [x] Fazer o site consultar releases atuais da API pública do GitHub.
+- [ ] Garantir que o workflow publique e mantenha o manifesto das últimas versões.
+- [ ] Validar a execução local com Bun em Windows e Linux.

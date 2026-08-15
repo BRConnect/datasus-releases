@@ -3,7 +3,13 @@
  */
 @import "tailwindcss";
 
-:root { --background: #f7f3eb; --foreground: #1c2724; }
+:root {
+  --background: #f7f3eb;
+  --foreground: #1c2724;
+  --font-display: Georgia, "Times New Roman", serif;
+  --font-sans: "Segoe UI", Arial, Helvetica, sans-serif;
+  --font-mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+}
 * { border-color: rgba(28, 39, 36, 0.12); }
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-sans), Arial, sans-serif; }

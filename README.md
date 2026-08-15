@@ -1,31 +1,38 @@
 # DATASUS Releases
 
-Este repositório reúne um **catálogo público de versões DATASUS** e um fluxo diário de coleta. A interface foi desenvolvida em **Next.js**, **Tailwind CSS 4**, componentes compatíveis com **shadcn/ui** e **Bun 1.2.21**.
+Catálogo de versões oficiais do DATASUS construído com **Next.js**, **Tailwind CSS**, componentes compatíveis com **shadcn/ui** e **Bun**. O projeto não depende de serviços privados: funciona localmente em Windows ou Linux e consulta a API pública do GitHub para listar os executáveis anexados às releases.
 
-| Origem monitorada | Regra de publicação |
-| --- | --- |
-| SISAIH01 | Publica todas as versões da competência mais recente. |
-| BPA | Publica o instalador `BPAMAG*.exe` mais recente. |
-| SIA | Publica o banco mensal `BDSIAAAAAMMx.exe` mais recente. |
+## Uso local
 
-O fluxo é executado automaticamente todos os dias às **07:00 no horário de Brasília** (10:00 UTC), com opção de disparo manual pela aba **Actions**. Ele consulta as páginas oficiais, transfere apenas os instaladores selecionados, cria releases públicas e atualiza `public/releases.json`. O site busca esse manifesto no repositório para refletir novas releases sem precisar alterar o código da interface.
-
-## Executar localmente
+Instale o [Bun](https://bun.sh/) e execute os comandos abaixo na raiz do repositório.
 
 ```bash
 bun install
 bun run dev
 ```
 
-Para testar apenas os tipos, execute `bun run check`. A sincronização manual exige um token GitHub com permissão de escrita em releases e conteúdo do repositório:
+Abra `http://localhost:3000`. Para compilar para produção, execute `bun run build` e `bun run start`. Nenhuma conta, token ou serviço adicional é necessário para **executar e consultar o catálogo**.
 
-```bash
-export GH_TOKEN="seu_token"
-bun run sync:datasus
+## Usar um fork
+
+Faça o fork, habilite as Actions no repositório e crie `.env.local` na raiz:
+
+```ini
+DATASUS_RELEASES_REPOSITORY=seu-usuario/seu-fork
 ```
 
-> Os executáveis são obtidos das fontes oficiais e **nunca são executados** pelo workflow. O projeto existe apenas para organizar, preservar e disponibilizar os downloads oficiais.
+Reinicie `bun run dev`. A interface passa a ler diretamente as releases públicas do seu fork. A explicação completa está em [`docs/configuracao-do-fork.md`](docs/configuracao-do-fork.md).
 
-## Fontes
+| Programa | Regra de seleção |
+| --- | --- |
+| SISAIH01 | Todos os instaladores da competência mais recente. |
+| BPA | O arquivo `BPAMAG*.exe` de maior versão. |
+| SIA | O arquivo `BDSIAAAAAMMx.exe` de maior ano, mês e sufixo. |
 
-As fontes consultadas são a página do [SISAIH01](http://sihd.datasus.gov.br/versao/versao_sisaih01.php), a lista de [BPA](https://sia.datasus.gov.br/versao/listar_ftp_bpa.php) e a lista de [SIA](https://sia.datasus.gov.br/versao/listar_ftp_sia.php).
+## Atualização automática
+
+O workflow `.github/workflows/sync-datasus.yml` roda diariamente às **07:00 no horário de Brasília** e pode ser executado manualmente na aba **Actions**. Ele consulta as fontes oficiais, baixa somente os executáveis selecionados, anexa-os a releases públicas e atualiza `public/releases.json` como trilha de auditoria.
+
+Em forks, o token temporário do próprio GitHub Actions tem as permissões necessárias. Para executar `bun run sync:datasus` fora do GitHub, é necessário um `GH_TOKEN` com permissão de escrita no repositório, pois essa operação cria releases.
+
+> Os binários são apenas transferidos e publicados. Este projeto não os executa.
