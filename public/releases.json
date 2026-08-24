@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-15T12:08:14.484Z",
+  "generatedAt": "2026-08-24T17:59:55.625Z",
   "repository": "BRConnect/datasus-releases",
   "releases": [
     {
@@ -44,16 +44,16 @@
       "delivery": "github-release"
     },
     {
-      "id": "sia-202607b",
+      "id": "sia-202608a",
       "program": "SIA",
       "programName": "Banco de Dados do SIA",
-      "version": "2026.07b",
-      "filename": "BDSIA202607b.exe",
+      "version": "2026.08a",
+      "filename": "BDSIA202608a.exe",
       "size": "9,3 MB",
-      "sourceUrl": "ftp://arpoador.datasus.gov.br/siasus/sia/BDSIA202607b.exe",
+      "sourceUrl": "ftp://arpoador.datasus.gov.br/siasus/sia/BDSIA202608a.exe",
       "sourcePage": "https://sia.datasus.gov.br/versao/listar_ftp_sia.php",
-      "publishedLabel": "13-Aug-2026",
-      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sia-bd-202607b/BDSIA202607b.exe",
+      "publishedLabel": "21-Aug-2026",
+      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sia-bd-202608a/BDSIA202608a.exe",
       "delivery": "github-release"
     }
   ]
