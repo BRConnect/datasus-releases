@@ -2,7 +2,7 @@ name: Sincronizar releases DATASUS
 
 on:
   schedule:
-    # 07:00 em Brasília (UTC-3).
+    # 07:00 em Brasília (UTC-3) = 10:00 UTC
     - cron: "0 10 * * *"
   workflow_dispatch:
 
@@ -17,9 +17,10 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+
     steps:
       - name: Obter código do catálogo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Preparar Bun
         uses: oven-sh/setup-bun@v2
@@ -41,8 +42,10 @@ jobs:
             echo "Manifesto sem alterações."
             exit 0
           fi
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add public/releases.json
           git commit -m "chore: sincronizar releases DATASUS"
           git push
