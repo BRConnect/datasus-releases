@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24T17:59:55.625Z",
+  "generatedAt": "2026-08-25T10:22:11.112Z",
   "repository": "BRConnect/datasus-releases",
   "releases": [
     {
@@ -31,19 +31,6 @@
       "delivery": "github-release"
     },
     {
-      "id": "bpa-05-00",
-      "program": "BPA",
-      "programName": "Boletim de Produção Ambulatorial",
-      "version": "05.00",
-      "filename": "BPAMAG0500.exe",
-      "size": "7,4 MB",
-      "sourceUrl": "ftp://arpoador.datasus.gov.br/siasus/BPA/BPAMAG0500.exe",
-      "sourcePage": "https://sia.datasus.gov.br/versao/listar_ftp_bpa.php",
-      "publishedLabel": "09-Jul-2026",
-      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/bpa-v05-00/BPAMAG0500.exe",
-      "delivery": "github-release"
-    },
-    {
       "id": "sia-202608a",
       "program": "SIA",
       "programName": "Banco de Dados do SIA",
@@ -54,6 +41,19 @@
       "sourcePage": "https://sia.datasus.gov.br/versao/listar_ftp_sia.php",
       "publishedLabel": "21-Aug-2026",
       "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sia-bd-202608a/BDSIA202608a.exe",
+      "delivery": "github-release"
+    },
+    {
+      "id": "bpa-05-00",
+      "program": "BPA",
+      "programName": "Boletim de Produção Ambulatorial",
+      "version": "05.00",
+      "filename": "BPAMAG0500.exe",
+      "size": "7,4 MB",
+      "sourceUrl": "ftp://arpoador.datasus.gov.br/siasus/BPA/BPAMAG0500.exe",
+      "sourcePage": "https://sia.datasus.gov.br/versao/listar_ftp_bpa.php",
+      "publishedLabel": "09-Jul-2026",
+      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/bpa-v05-00/BPAMAG0500.exe",
       "delivery": "github-release"
     }
   ]
