@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T14:23:32.787Z",
+  "generatedAt": "2026-09-02T19:19:06.228Z",
   "repository": "BRConnect/datasus-releases",
   "releases": [
     {
@@ -40,6 +40,19 @@
       "sourcePage": "https://sia.datasus.gov.br/versao/listar_ftp_sia.php",
       "publishedLabel": "21-Aug-2026",
       "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sia-bd-202608a/BDSIA202608a.exe",
+      "delivery": "github-release"
+    },
+    {
+      "id": "ciha01-20-33",
+      "program": "CIHA01",
+      "programName": "Comunicação de Informação Hospitalar e Ambulatorial",
+      "version": "20.33",
+      "filename": "CIHA01_VER2033.exe",
+      "size": "Conforme arquivo oficial",
+      "sourceUrl": "ftp://ftp2.datasus.gov.br/public/sistemas/dsweb/SIHD/CIHA/Programas/CIHA01_VER2033.exe",
+      "sourcePage": "https://ciha.saude.gov.br/versao/versao_ciha1.php",
+      "publishedLabel": "Versão atual",
+      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/ciha01-v20-33/CIHA01_VER2033.exe",
       "delivery": "github-release"
     }
   ]

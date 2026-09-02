@@ -6,7 +6,7 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, basename } from "node:path";
 
-type ProgramId = "SISAIH01" | "BPA" | "SIA";
+type ProgramId = "SISAIH01" | "BPA" | "SIA" | "CIHA01";
 
 type Candidate = {
   id: string;
@@ -34,6 +34,7 @@ const repository = process.env.GITHUB_REPOSITORY ?? "BRConnect/datasus-releases"
 const SIH_URL = "http://sihd.datasus.gov.br/versao/versao_sisaih01.php";
 const BPA_URL = "https://sia.datasus.gov.br/versao/listar_ftp_bpa.php";
 const SIA_URL = "https://sia.datasus.gov.br/versao/listar_ftp_sia.php";
+const CIHA_URL = "https://ciha.saude.gov.br/versao/versao_ciha1.php";
 
 function decode(value: string) {
   return value
@@ -148,6 +149,29 @@ function parseBpa(html: string): Candidate {
   };
 }
 
+function parseCiha(html: string): Candidate {
+  const matches = [...html.matchAll(/href=["']([^"']*CIHA01_VER(\d+)\.exe)\s*["']/gi)];
+  const latest = matches.at(-1);
+  if (!latest) throw new Error("Instalador CIHA01 não encontrado.");
+
+  const digits = latest[2];
+  const sourceUrl = latest[1].replace(/\s/g, "");
+  const version = `${digits.slice(0, 2)}.${digits.slice(2)}`;
+  return {
+    id: `ciha01-${version.replace(".", "-")}`,
+    program: "CIHA01",
+    programName: "Comunicação de Informação Hospitalar e Ambulatorial",
+    version,
+    filename: sourceFileName(sourceUrl, `CIHA01_VER${digits}.exe`),
+    size: "Conforme arquivo oficial",
+    sourceUrl,
+    sourcePage: CIHA_URL,
+    publishedLabel: "Versão atual",
+    tag: `ciha01-v${version.replace(".", "-")}`,
+    title: `CIHA01 · versão ${version}`,
+  };
+}
+
 function parseSia(html: string): Candidate {
   const candidates = [...html.matchAll(/>(BDSIA(\d{4})(\d{2})([a-z])\.exe)</gi)]
     .map((match) => ({ filename: match[1], year: match[2], month: match[3], suffix: match[4] }))
@@ -172,29 +196,31 @@ function parseSia(html: string): Candidate {
 }
 
 async function run(command: string[], quiet = false) {
-  const child = Bun.spawn(command, { stdout: quiet ? "pipe" : "inherit", stderr: "inherit", env: process.env });
+  const child = Bun.spawn(command, { stdout: quiet ? "pipe" : "inherit", stderr: "inherit", env: { ...process.env, GH_FORCE_TTY: "0", NO_COLOR: "1" } });
   if ((await child.exited) !== 0) throw new Error(`Comando falhou: ${command.join(" ")}`);
   return quiet ? (await new Response(child.stdout).text()).trim() : "";
 }
 
 async function getReleaseAssets(tag: string): Promise<string[] | null> {
-  const child = Bun.spawn(["gh", "release", "view", tag, "--repo", repository, "--json", "assets"], { stdout: "pipe", stderr: "ignore", env: process.env });
+  const child = Bun.spawn(["gh", "release", "view", tag, "--repo", repository, "--json", "assets"], { stdout: "pipe", stderr: "ignore", env: { ...process.env, GH_FORCE_TTY: "0", NO_COLOR: "1" } });
   if ((await child.exited) !== 0) return null;
   const raw = await new Response(child.stdout).text();
-  return (JSON.parse(raw) as { assets: { name: string }[] }).assets.map((asset) => asset.name);
+  const clean = raw.replace(/\u001b\[[0-?]*[ -\/]*[@-~]/g, "").replace(/\u001b\][^\u0007]*(?:\u0007|\u001b\\)/g, "");
+  return (JSON.parse(clean) as { assets: { name: string }[] }).assets.map((asset) => asset.name);
 }
 
 function isExpectedArtifact(program: ProgramId, filename: string) {
   if (program === "SISAIH01") return /^sisaih01_ver\d+\.exe$/i.test(filename);
   if (program === "BPA") return /^BPAMAG\d+\.exe$/i.test(filename);
-  return /^BDSIA\d{4}\d{2}[a-z]\.exe$/i.test(filename);
+  if (program === "SIA") return /^BDSIA\d{4}\d{2}[a-z]\.exe$/i.test(filename);
+  return /^CIHA01_VER\d+\.exe$/i.test(filename);
 }
 
 async function download(candidate: Candidate, directory: string) {
   const destination = join(directory, candidate.filename);
   await run([
     "curl", "--fail", "--location", "--show-error", "--retry", "3", "--retry-all-errors",
-    "--connect-timeout", "30", "--max-time", "1200", "--ftp-pasv", "--output", destination, candidate.sourceUrl,
+    "--connect-timeout", "30", "--max-time", "1200", "--output", destination, candidate.sourceUrl,
   ]);
   if (!(await Bun.file(destination).exists())) throw new Error(`Download ausente: ${candidate.filename}`);
   return destination;
@@ -246,11 +272,12 @@ function groupByTag(candidates: Candidate[]) {
 
 async function main() {
   console.log(`Consultando fontes oficiais para ${repository}...`);
-  const responses = await Promise.allSettled([getHtml(SIH_URL), getHtml(BPA_URL), getHtml(SIA_URL)]);
+  const responses = await Promise.allSettled([getHtml(SIH_URL), getHtml(BPA_URL), getHtml(SIA_URL), getHtml(CIHA_URL)]);
   const definitions: Array<{ program: ProgramId; parse: (html: string) => Candidate | Candidate[] }> = [
     { program: "SISAIH01", parse: parseSih },
     { program: "BPA", parse: parseBpa },
     { program: "SIA", parse: parseSia },
+    { program: "CIHA01", parse: parseCiha },
   ];
 
   const candidates: Candidate[] = [];

@@ -28,18 +28,21 @@ const sourcePages: Record<ProgramId, string> = {
   SISAIH01: "http://sihd.datasus.gov.br/versao/versao_sisaih01.php",
   BPA: "https://sia.datasus.gov.br/versao/listar_ftp_bpa.php",
   SIA: "https://sia.datasus.gov.br/versao/listar_ftp_sia.php",
+  CIHA01: "https://ciha.saude.gov.br/versao/versao_ciha1.php",
 };
 
 const programNames: Record<ProgramId, string> = {
   SISAIH01: "Sistema de Informações Hospitalares",
   BPA: "Boletim de Produção Ambulatorial",
   SIA: "Banco de Dados do SIA",
+  CIHA01: "Comunicação de Informação Hospitalar e Ambulatorial",
 };
 
 function getProgram(tag: string): ProgramId | null {
   if (tag.startsWith("sih-sisaih01-")) return "SISAIH01";
   if (tag.startsWith("bpa-v")) return "BPA";
   if (tag.startsWith("sia-bd-")) return "SIA";
+  if (tag.startsWith("ciha01-v")) return "CIHA01";
   return null;
 }
 
@@ -53,8 +56,12 @@ function releaseRank(release: GitHubRelease, program: ProgramId) {
     const value = /bpa-v(\d+)-(\d+)/i.exec(tag);
     return value ? Number(value[1]) * 1000 + Number(value[2]) : 0;
   }
-  const value = /sia-bd-(\d{4})(\d{2})([a-z])/i.exec(tag);
-  return value ? Number(value[1]) * 10_000 + Number(value[2]) * 100 + value[3].charCodeAt(0) : 0;
+  if (program === "SIA") {
+    const value = /sia-bd-(\d{4})(\d{2})([a-z])/i.exec(tag);
+    return value ? Number(value[1]) * 10_000 + Number(value[2]) * 100 + value[3].charCodeAt(0) : 0;
+  }
+  const value = /ciha01-v(\d+)-(\d+)/i.exec(tag);
+  return value ? Number(value[1]) * 1000 + Number(value[2]) : 0;
 }
 
 function artifactVersion(program: ProgramId, filename: string, tag: string) {
@@ -66,14 +73,19 @@ function artifactVersion(program: ProgramId, filename: string, tag: string) {
     const value = /BPAMAG(\d{2})(\d{2})\.exe/i.exec(filename);
     return value ? `${value[1]}.${value[2]}` : tag;
   }
-  const value = /BDSIA(\d{4})(\d{2})([a-z])\.exe/i.exec(filename);
-  return value ? `${value[1]}.${value[2]}${value[3]}` : tag;
+  if (program === "SIA") {
+    const value = /BDSIA(\d{4})(\d{2})([a-z])\.exe/i.exec(filename);
+    return value ? `${value[1]}.${value[2]}${value[3]}` : tag;
+  }
+  const value = /CIHA01_VER(\d{2})(\d+)\.exe/i.exec(filename);
+  return value ? `${value[1]}.${value[2]}` : tag;
 }
 
 function isArtifact(program: ProgramId, filename: string) {
   if (program === "SISAIH01") return /^sisaih01_ver\d+\.exe$/i.test(filename);
   if (program === "BPA") return /^BPAMAG\d+\.exe$/i.test(filename);
-  return /^BDSIA\d{4}\d{2}[a-z]\.exe$/i.test(filename);
+  if (program === "SIA") return /^BDSIA\d{4}\d{2}[a-z]\.exe$/i.test(filename);
+  return /^CIHA01_VER\d+\.exe$/i.test(filename);
 }
 
 function fileSize(bytes: number) {
@@ -143,7 +155,7 @@ export async function GET() {
     }
   }
 
-  const items = (["SISAIH01", "BPA", "SIA"] as ProgramId[]).flatMap((program) => {
+  const items = (["SISAIH01", "BPA", "SIA", "CIHA01"] as ProgramId[]).flatMap((program) => {
     const release = currentByProgram.get(program);
     return release ? makeItems(release, program) : [];
   });

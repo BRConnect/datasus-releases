@@ -15,6 +15,7 @@ const sources = [
   { id: "SISAIH01" as const, title: "SIH · SISAIH01", description: "Autorizações de Internações Hospitalares", href: "http://sihd.datasus.gov.br/versao/versao_sisaih01.php", asset: "/assets/source-sih.svg" },
   { id: "BPA" as const, title: "SIA · BPA", description: "Boletim de Produção Ambulatorial", href: "https://sia.datasus.gov.br/versao/listar_ftp_bpa.php", asset: "/assets/source-bpa.svg" },
   { id: "SIA" as const, title: "SIA · banco mensal", description: "Base de dados ambulatorial por competência", href: "https://sia.datasus.gov.br/versao/listar_ftp_sia.php", asset: "/assets/source-sia.svg" },
+  { id: "CIHA01" as const, title: "CIHA01", description: "Comunicação hospitalar e ambulatorial", href: "https://ciha.saude.gov.br/versao/versao_ciha1.php", asset: "/assets/source-ciha.svg" },
 ];
 
 const programLabels: Record<"ALL" | ProgramId, string> = {
@@ -22,6 +23,7 @@ const programLabels: Record<"ALL" | ProgramId, string> = {
   SISAIH01: "SISAIH01",
   BPA: "BPA",
   SIA: "SIA",
+  CIHA01: "CIHA01",
 };
 
 function formatSyncTime(isoDate: string) {
@@ -106,8 +108,8 @@ export default function Home() {
             </div>
           </div>
           <div className="hero-monitor" aria-hidden="true">
-            <p>faixa de monitoramento / 03</p>
-            <div><span>Fontes</span><strong>SIH · BPA · SIA</strong></div>
+            <p>faixa de monitoramento / 04</p>
+            <div><span>Fontes</span><strong>SIH · BPA · SIA · CIHA01</strong></div>
             <div><span>Consulta</span><strong>Diária · 07:00 BRT</strong></div>
             <div><span>Entrega</span><strong>Release pública / HTTPS</strong></div>
           </div>
@@ -116,7 +118,7 @@ export default function Home() {
 
       <section className="site-container stats-grid" aria-label="Resumo do catálogo">
         {[
-          { label: "Fontes monitoradas", value: "03", note: "SIH e SIA" },
+          { label: "Fontes monitoradas", value: "04", note: "SIH, SIA e CIHA01" },
           { label: "Arquivos no acervo", value: String(data.releases.length).padStart(2, "0"), note: releasedCount ? `${releasedCount} em releases` : "primeira publicação pendente" },
           { label: "Próxima consulta", value: "07:00", note: "horário de Brasília" },
         ].map((stat) => (
