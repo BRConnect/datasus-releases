@@ -56,22 +56,17 @@ function sourceFileName(url: string, fallback: string) {
 async function getHtml(url: string) {
   let lastError: unknown;
   for (let attempt = 1; attempt <= 3; attempt += 1) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 45_000);
-    try {
-      const response = await fetch(url, {
-        headers: { "user-agent": "datasus-releases-sync/2.0" },
-        signal: controller.signal,
-      });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      return await response.text();
-    } catch (error) {
-      lastError = error;
-      console.warn(`Tentativa ${attempt}/3 sem resposta em ${url}.`);
-      if (attempt < 3) await Bun.sleep(attempt * 4_000);
-    } finally {
-      clearTimeout(timer);
-    }
+    const child = Bun.spawn([
+      "curl", "--fail", "--location", "--silent", "--show-error", "--retry", "2", "--retry-all-errors",
+      "--connect-timeout", "30", "--max-time", "120", "--http1.1", "--compressed",
+      "--user-agent", "datasus-releases-sync/2.0", "--output", "-", url,
+    ], { stdout: "pipe", stderr: "inherit", env: { ...process.env, NO_COLOR: "1" } });
+    const exitCode = await child.exited;
+    if (exitCode === 0) return await new Response(child.stdout).text();
+
+    lastError = new Error(`curl terminou com código ${exitCode}`);
+    console.warn(`Tentativa ${attempt}/3 sem resposta em ${url}.`);
+    if (attempt < 3) await Bun.sleep(attempt * 4_000);
   }
   throw new Error(`Fonte indisponível após 3 tentativas: ${url}. ${lastError instanceof Error ? lastError.message : ""}`);
 }
@@ -296,9 +291,15 @@ async function main() {
       console.error(`Não foi possível interpretar ${definition.program}: ${error instanceof Error ? error.message : error}`);
     }
   });
-  if (!candidates.length) throw new Error("Nenhuma fonte DATASUS respondeu com instalador válido.");
-
   const cached = (await Bun.file("public/releases.json").json()) as CachedManifest;
+  if (!candidates.length) {
+    if (cached.releases?.length) {
+      console.warn("Nenhuma fonte DATASUS respondeu; preservando o manifesto válido anterior.");
+      await Bun.write("public/releases.json", `${JSON.stringify({ ...cached, generatedAt: new Date().toISOString(), repository }, null, 2)}\n`);
+      return;
+    }
+    throw new Error("Nenhuma fonte DATASUS respondeu com instalador válido e não há manifesto de fallback.");
+  }
   const published: PublishedItem[] = [];
   for (const group of groupByTag(candidates)) {
     try {
