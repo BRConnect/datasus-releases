@@ -34,18 +34,31 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-        run: bun run sync:datasus
-
-      - name: Atualizar manifesto do site
         run: |
-          if git diff --quiet -- public/releases.json; then
-            echo "Manifesto sem alterações."
-            exit 0
-          fi
-
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add public/releases.json
-          git commit -m "chore: sincronizar releases DATASUS"
-          git push
+          for attempt in 1 2 3; do
+            echo "Sincronização/publicação tentativa ${attempt}/3."
+            git fetch origin main
+            git reset --hard origin/main
+            bun run sync:datasus
+
+            if git diff --quiet -- public/releases.json; then
+              echo "Manifesto sem alterações."
+              exit 0
+            fi
+
+            git add public/releases.json
+            git commit -m "chore: sincronizar releases DATASUS"
+            if git push origin HEAD:main; then
+              echo "Manifesto publicado com sucesso."
+              exit 0
+            fi
+
+            echo "Push rejeitado por alteração concorrente; refazendo fetch e sincronização."
+          done
+
+          echo "Não foi possível publicar o manifesto após 3 tentativas."
+          exit 1
