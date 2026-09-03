@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-03T12:59:16.449Z",
+  "generatedAt": "2026-09-03T13:37:04.814Z",
   "repository": "BRConnect/datasus-releases",
   "releases": [
     {
@@ -53,6 +53,20 @@
       "sourcePage": "https://sia.datasus.gov.br/versao/listar_ftp_bpa.php",
       "publishedLabel": "09-Jul-2026",
       "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/bpa-v05-00/BPAMAG0500.exe",
+      "delivery": "github-release"
+    },
+    {
+      "id": "sigtap-202608",
+      "program": "SIGTAP",
+      "programName": "Tabela de Procedimentos, Medicamentos e OPM do SUS",
+      "version": "08/2026",
+      "filename": "TabelaUnificada_202608_v2608141139.zip",
+      "size": "Conforme arquivo oficial",
+      "sourceUrl": "ftp://ftp2.datasus.gov.br/pub/sistemas/tup/downloads/TabelaUnificada_202608_v2608141139.zip",
+      "sourcePage": "http://sigtap.datasus.gov.br/tabela-unificada/app/download.jsp",
+      "publishedLabel": "Competência 08/2026",
+      "competence": "08/2026",
+      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sigtap-202608-v2608141139/TabelaUnificada_202608_v2608141139.zip",
       "delivery": "github-release"
     }
   ]

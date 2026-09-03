@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 260" role="img" aria-labelledby="title desc">
+  <title id="title">SIGTAP</title>
+  <desc id="desc">Ilustração abstrata de uma tabela de procedimentos do SUS</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#35284f"/>
+      <stop offset="1" stop-color="#795c8b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f1d79c"/>
+      <stop offset="1" stop-color="#d99a68"/>
+    </linearGradient>
+  </defs>
+  <rect width="360" height="260" rx="16" fill="url(#bg)"/>
+  <circle cx="286" cy="48" r="82" fill="#fff" opacity=".08"/>
+  <rect x="48" y="50" width="210" height="145" rx="12" fill="#fff" opacity=".14" stroke="#fff" stroke-opacity=".6"/>
+  <path d="M48 86h210M48 122h210M48 158h210M116 50v145M190 50v145" stroke="#fff" stroke-opacity=".48" stroke-width="2"/>
+  <path d="M67 68h30M135 68h34M209 68h28M67 104h30M135 104h34M209 104h28M67 140h30M135 140h34M209 140h28M67 176h30M135 176h34M209 176h28" stroke="#fff" stroke-opacity=".82" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="286" cy="156" r="32" fill="url(#accent)"/>
+  <path d="M286 138v36M268 156h36" stroke="#35284f" stroke-width="8" stroke-linecap="round"/>
+  <text x="48" y="229" fill="#fff" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="2">SIGTAP</text>
+</svg>

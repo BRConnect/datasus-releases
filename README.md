@@ -4,7 +4,7 @@
 
 > **Versões oficiais, organizadas para consulta rápida e downloads em HTTPS.**
 
-O **DATASUS Releases** é um catálogo independente que reúne os instaladores mais recentes de **SISAIH01**, **BPA**, **SIA** e **CIHA01** em releases públicas do GitHub. A aplicação foi criada por [Lucas Camargo Stivan](https://github.com/stivan-lucas) para reduzir o esforço de localizar arquivos em páginas distintas do DATASUS e apresentar um caminho de download moderno, auditável e compatível com navegadores atuais.
+O **DATASUS Releases** é um catálogo independente que reúne os arquivos mais recentes de **SISAIH01**, **BPA**, **SIA**, **CIHA01** e **SIGTAP** em releases públicas do GitHub. A aplicação foi criada por [Lucas Camargo Stivan](https://github.com/stivan-lucas) para reduzir o esforço de localizar arquivos em páginas distintas do DATASUS e apresentar um caminho de download moderno, auditável e compatível com navegadores atuais.
 
 ## Por que este projeto existe?
 
@@ -32,6 +32,7 @@ O agendamento usa o evento `schedule` do GitHub Actions. Workflows programados p
 | **BPA** | `BPAMAG*.exe` | Publica a maior versão encontrada. |
 | **SIA** | `BDSIAAAAAMMx.exe` | Publica o maior ano, mês e sufixo disponíveis. |
 | **CIHA01** | `CIHA01_VERNNNN.exe` | Publica a versão mais recente indicada na página oficial do CIHA. |
+| **SIGTAP** | `TabelaUnificada_AAAAMM_vNNNNNNNNNN.zip` | Consulta o RSS oficial, seleciona a maior competência e tenta o FTP várias vezes antes de preservar o último manifesto válido. |
 
 O catálogo descarta assets que não correspondem a esses padrões. Quando uma fonte falha temporariamente, o sincronizador conserva o último manifesto válido em vez de substituir o acervo por dados incompletos.
 

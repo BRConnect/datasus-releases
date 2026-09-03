@@ -13,7 +13,7 @@ const monoFont = IBM_Plex_Mono({ variable: "--font-mono", subsets: ["latin"], we
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://datasus.vercel.app";
 const siteName = "DATASUS Releases";
-const description = "Catálogo público de versões DATASUS, incluindo SISAIH01, BPA, SIA e CIHA01, com downloads HTTPS e releases sincronizadas diariamente a partir das fontes oficiais.";
+const description = "Catálogo público de versões DATASUS, incluindo SISAIH01, BPA, SIA, CIHA01 e SIGTAP, com downloads HTTPS e releases sincronizadas diariamente a partir das fontes oficiais.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Lucas Camargo Stivan", url: "https://github.com/stivan-lucas" }],
   creator: "Lucas Camargo Stivan",
   publisher: "Lucas Camargo Stivan",
-  keywords: ["DATASUS", "SISAIH01", "BPA", "SIA", "CIHA01", "releases", "HTTPS", "saúde"],
+  keywords: ["DATASUS", "SISAIH01", "BPA", "SIA", "CIHA01", "SIGTAP", "releases", "HTTPS", "saúde"],
   category: "Saúde e tecnologia",
   alternates: { canonical: "/" },
   icons: {

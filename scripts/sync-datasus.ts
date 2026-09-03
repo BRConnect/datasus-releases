@@ -6,7 +6,7 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, basename } from "node:path";
 
-type ProgramId = "SISAIH01" | "BPA" | "SIA" | "CIHA01";
+type ProgramId = "SISAIH01" | "BPA" | "SIA" | "CIHA01" | "SIGTAP";
 
 type Candidate = {
   id: string;
@@ -35,6 +35,8 @@ const SIH_URL = "http://sihd.datasus.gov.br/versao/versao_sisaih01.php";
 const BPA_URL = "https://sia.datasus.gov.br/versao/listar_ftp_bpa.php";
 const SIA_URL = "https://sia.datasus.gov.br/versao/listar_ftp_sia.php";
 const CIHA_URL = "https://ciha.saude.gov.br/versao/versao_ciha1.php";
+const SIGTAP_PAGE_URL = "http://sigtap.datasus.gov.br/tabela-unificada/app/download.jsp";
+const SIGTAP_RSS_URL = "http://sigtap.datasus.gov.br/tabela-unificada/competencias.rss";
 
 function decode(value: string) {
   return value
@@ -53,9 +55,9 @@ function sourceFileName(url: string, fallback: string) {
   return /\.exe$/i.test(name) ? name : fallback;
 }
 
-async function getHtml(url: string) {
+async function getHtml(url: string, maxAttempts = 3) {
   let lastError: unknown;
-  for (let attempt = 1; attempt <= 3; attempt += 1) {
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     const child = Bun.spawn([
       "curl", "--fail", "--location", "--silent", "--show-error", "--retry", "2", "--retry-all-errors",
       "--connect-timeout", "30", "--max-time", "120", "--http1.1", "--compressed",
@@ -65,10 +67,10 @@ async function getHtml(url: string) {
     if (exitCode === 0) return await new Response(child.stdout).text();
 
     lastError = new Error(`curl terminou com código ${exitCode}`);
-    console.warn(`Tentativa ${attempt}/3 sem resposta em ${url}.`);
-    if (attempt < 3) await Bun.sleep(attempt * 4_000);
+    console.warn(`Tentativa ${attempt}/${maxAttempts} sem resposta em ${url}.`);
+    if (attempt < maxAttempts) await Bun.sleep(Math.min(attempt * 6_000, 30_000));
   }
-  throw new Error(`Fonte indisponível após 3 tentativas: ${url}. ${lastError instanceof Error ? lastError.message : ""}`);
+  throw new Error(`Fonte indisponível após ${maxAttempts} tentativas: ${url}. ${lastError instanceof Error ? lastError.message : ""}`);
 }
 
 function parseSih(html: string): Candidate[] {
@@ -167,6 +169,31 @@ function parseCiha(html: string): Candidate {
   };
 }
 
+function parseSigtap(xml: string): Candidate {
+  const entries = [...xml.matchAll(/<item>[\s\S]*?<title>\s*Competência\s+(\d{2}\/\d{4})\s*<\/title>[\s\S]*?<link>\s*([^<]*TabelaUnificada_(\d{6})_v(\d+)\.zip)\s*<\/link>[\s\S]*?<pubDate>\s*([^<]+)\s*<\/pubDate>[\s\S]*?<\/item>/gi)]
+    .map((match) => ({ competence: match[1], sourceUrl: decode(match[2]), versionToken: match[4], publishedAt: decode(match[5]) }))
+    .sort((left, right) => right.competence.split("/").reverse().join("").localeCompare(left.competence.split("/").reverse().join("")));
+  const latest = entries[0];
+  if (!latest) throw new Error("Competência/arquivo ZIP do SIGTAP não encontrado no RSS oficial.");
+
+  const filename = basename(latest.sourceUrl);
+  const [month, year] = latest.competence.split("/");
+  return {
+    id: `sigtap-${year}${month}`,
+    program: "SIGTAP",
+    programName: "Tabela de Procedimentos, Medicamentos e OPM do SUS",
+    version: `${month}/${year}`,
+    filename,
+    size: "Conforme arquivo oficial",
+    sourceUrl: latest.sourceUrl,
+    sourcePage: SIGTAP_PAGE_URL,
+    publishedLabel: `Competência ${latest.competence}`,
+    competence: latest.competence,
+    tag: `sigtap-${year}${month}-v${latest.versionToken}`,
+    title: `SIGTAP · competência ${latest.competence}`,
+  };
+}
+
 function parseSia(html: string): Candidate {
   const candidates = [...html.matchAll(/>(BDSIA(\d{4})(\d{2})([a-z])\.exe)</gi)]
     .map((match) => ({ filename: match[1], year: match[2], month: match[3], suffix: match[4] }))
@@ -208,17 +235,35 @@ function isExpectedArtifact(program: ProgramId, filename: string) {
   if (program === "SISAIH01") return /^sisaih01_ver\d+\.exe$/i.test(filename);
   if (program === "BPA") return /^BPAMAG\d+\.exe$/i.test(filename);
   if (program === "SIA") return /^BDSIA\d{4}\d{2}[a-z]\.exe$/i.test(filename);
-  return /^CIHA01_VER\d+\.exe$/i.test(filename);
+  if (program === "CIHA01") return /^CIHA01_VER\d+\.exe$/i.test(filename);
+  return /^TabelaUnificada_\d{6}_v\d+\.zip$/i.test(filename);
 }
 
 async function download(candidate: Candidate, directory: string) {
   const destination = join(directory, candidate.filename);
-  await run([
-    "curl", "--fail", "--location", "--show-error", "--retry", "3", "--retry-all-errors",
-    "--connect-timeout", "30", "--max-time", "1200", "--output", destination, candidate.sourceUrl,
-  ]);
-  if (!(await Bun.file(destination).exists())) throw new Error(`Download ausente: ${candidate.filename}`);
-  return destination;
+  const attempts = candidate.program === "SIGTAP" ? 5 : 1;
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      await run([
+        "curl", "--fail", "--location", "--silent", "--show-error", "--retry", "2", "--retry-all-errors",
+        "--connect-timeout", "30", "--max-time", candidate.program === "SIGTAP" ? "300" : "1200",
+        "--output", destination, candidate.sourceUrl,
+      ]);
+      if (!(await Bun.file(destination).exists())) throw new Error(`Download ausente: ${candidate.filename}`);
+      return destination;
+    } catch (error) {
+      lastError = error;
+      await rm(destination, { force: true });
+      if (attempt < attempts) {
+        console.warn(`Download SIGTAP tentativa ${attempt}/${attempts} falhou; aguardando o portal voltar.`);
+        await Bun.sleep(Math.min(attempt * 15_000, 60_000));
+      }
+    }
+  }
+
+  throw new Error(`Download de ${candidate.filename} falhou após ${attempts} tentativas. ${lastError instanceof Error ? lastError.message : ""}`);
 }
 
 async function publishGroup(group: Candidate[]): Promise<PublishedItem[]> {
@@ -267,12 +312,13 @@ function groupByTag(candidates: Candidate[]) {
 
 async function main() {
   console.log(`Consultando fontes oficiais para ${repository}...`);
-  const responses = await Promise.allSettled([getHtml(SIH_URL), getHtml(BPA_URL), getHtml(SIA_URL), getHtml(CIHA_URL)]);
+  const responses = await Promise.allSettled([getHtml(SIH_URL), getHtml(BPA_URL), getHtml(SIA_URL), getHtml(CIHA_URL), getHtml(SIGTAP_RSS_URL, 10)]);
   const definitions: Array<{ program: ProgramId; parse: (html: string) => Candidate | Candidate[] }> = [
     { program: "SISAIH01", parse: parseSih },
     { program: "BPA", parse: parseBpa },
     { program: "SIA", parse: parseSia },
     { program: "CIHA01", parse: parseCiha },
+    { program: "SIGTAP", parse: parseSigtap },
   ];
 
   const candidates: Candidate[] = [];

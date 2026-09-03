@@ -1,5 +1,5 @@
 /** Modelo de dados para o arquivo público de versões do catálogo DATASUS. */
-export type ProgramId = "SISAIH01" | "BPA" | "SIA" | "CIHA01";
+export type ProgramId = "SISAIH01" | "BPA" | "SIA" | "CIHA01" | "SIGTAP";
 
 export type ReleaseItem = {
   id: string;
