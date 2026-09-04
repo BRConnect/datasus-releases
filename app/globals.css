@@ -307,3 +307,53 @@ html[data-theme="dark"] .icon-on-accent { filter: brightness(0) saturate(100%) i
   .legal-footer { display: block; border-top: 1px solid #777; margin-top: 8mm; padding-top: 4mm; color: #333 !important; }
   .legal-footer a { color: #111 !important; }
 }
+
+/* Refinamentos de acessibilidade, carregamento e interação. */
+.skeleton-list { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.release-skeleton { display: grid; grid-template-columns: minmax(8rem, 9.25rem) minmax(0, 1fr) auto; gap: clamp(1.25rem, 3vw, 1.75rem); align-items: center; border-bottom: 1px solid var(--line); padding-block: 1.5rem; }
+.release-skeleton > span, .release-skeleton > strong, .release-skeleton i, .release-skeleton b, .release-skeleton em { display: block; border-radius: .18rem; background: linear-gradient(100deg, var(--surface-alt) 20%, color-mix(in srgb, var(--accent) 13%, var(--surface-alt)) 40%, var(--surface-alt) 60%); background-size: 220% 100%; animation: shimmer 1.8s ease-in-out infinite; }
+.release-skeleton > span { width: 2.75rem; height: 2.75rem; }
+.release-skeleton > strong { width: 7rem; height: 2.75rem; }
+.release-skeleton > div { display: grid; gap: .55rem; }
+.release-skeleton i { width: 9rem; height: .55rem; }
+.release-skeleton b { width: min(24rem, 80%); height: 1.3rem; }
+.release-skeleton em { width: min(18rem, 65%); height: .6rem; }
+@keyframes shimmer { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+.source-card, .primary-link, .filter-button, .refresh-button, .release-download, .release-source, .theme-toggle, .legal-print-button { transition: transform 180ms ease-out, box-shadow 180ms ease-out, color 180ms ease-out, background-color 180ms ease-out, border-color 180ms ease-out; }
+.source-card:hover, .source-card:focus-visible { transform: translateY(-3px); box-shadow: var(--shadow); }
+.filter-button.is-active { font-weight: 800; box-shadow: inset 0 -3px 0 var(--coral); }
+.external-link-label { display: inline-flex; align-items: center; gap: .3rem; }
+@media print {
+  .site-header, .legal-hero-actions, .legal-index, .legal-footer, .skip-link, .theme-toggle, button { display: none !important; }
+  .legal-shell, body { background: #fff !important; color: #000 !important; }
+  .legal-layout, .site-container { display: block; width: 100%; max-width: none; padding: 0; }
+  .legal-hero { border: 0; background: #fff; }
+  .legal-hero-inner { display: block; padding: 0 0 1rem; }
+  .legal-hero h1 { max-width: none; color: #000; font-size: 2.25rem; }
+  .legal-document { border: 0; box-shadow: none; padding: 0; }
+  .legal-document a { color: #000; text-decoration: underline; }
+  .legal-document section { break-inside: avoid; }
+}
+@media (max-width: 50rem) {
+  .release-skeleton { grid-template-columns: 1fr; }
+  .release-skeleton > strong { display: none; }
+}
+@media (max-width: 24rem) {
+  .site-container { width: min(100% - 1rem, 80rem); }
+  .brand-subtitle { font-size: .42rem; }
+  .header-nav > a:not(.header-github) { font-size: .72rem; }
+  .hero-copy h1 { font-size: clamp(2.55rem, 15vw, 3.2rem); }
+  .release-metadata { grid-template-columns: 1fr; }
+  .release-metadata > div, .release-metadata > div:nth-child(3), .release-metadata > div:nth-child(4) { border-left: 0; border-top: 1px solid var(--line); }
+  .release-metadata > div:first-child { border-top: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .release-skeleton > span, .release-skeleton > strong, .release-skeleton i, .release-skeleton b, .release-skeleton em { animation: none; }
+  .source-card:hover, .source-card:focus-visible { transform: none; }
+}
+
+.breadcrumbs { display: flex; flex-wrap: wrap; align-items: center; gap: .55rem; padding-block: 1rem 0; color: var(--quiet); font-family: var(--font-mono), monospace; font-size: .64rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.breadcrumbs a { color: var(--accent); text-decoration: none; }
+.breadcrumbs a:hover { text-decoration: underline; }
+.breadcrumbs [aria-current="page"] { color: var(--muted); overflow-wrap: anywhere; }
+@media print { .breadcrumbs { display: none; } }

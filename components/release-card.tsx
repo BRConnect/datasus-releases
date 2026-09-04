@@ -38,11 +38,11 @@ export function ReleaseCard({ release, index }: ReleaseCardProps) {
       </div>
 
       <div className="release-actions">
-        <a className={buttonVariants({ size: "default", className: "release-download" })} href={release.downloadUrl} target="_blank" rel="noreferrer" aria-label={actionLabel}>
+        <a className={buttonVariants({ size: "default", className: "release-download" })} href={release.downloadUrl} target="_blank" rel="noopener noreferrer" aria-label={`${actionLabel} (abre em nova aba)`}>
           <LocalIcon name="download" className="h-[15px] w-[15px] shrink-0 icon-on-accent" />
           <span>{actionLabel}</span>
         </a>
-        <a className={buttonVariants({ variant: "ghost", size: "sm", className: "release-source" })} href={release.sourcePage} target="_blank" rel="noreferrer" aria-label={`Auditar fonte oficial de ${release.filename}`} title="Auditar fonte oficial">
+        <a className={buttonVariants({ variant: "ghost", size: "sm", className: "release-source" })} href={release.sourcePage} target="_blank" rel="noopener noreferrer" aria-label={`Auditar fonte oficial de ${release.filename} (abre em nova aba)`} title="Auditar fonte oficial">
           <LocalIcon name="external" className="h-[15px] w-[15px]" />
           <span className="sr-only">Auditar fonte oficial</span>
         </a>

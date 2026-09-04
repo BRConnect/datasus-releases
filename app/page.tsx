@@ -4,6 +4,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { animate, stagger } from "animejs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { LocalIcon } from "@/components/local-icon";
@@ -40,9 +41,19 @@ export default function Home() {
   const [data, setData] = useState<ReleasesPayload>(initialReleases);
   const [filter, setFilter] = useState<"ALL" | ProgramId>("ALL");
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [catalogStatus, setCatalogStatus] = useState("Carregando as releases mais recentes.");
   const currentYear = new Date().getFullYear();
   const releasesUrl = data.repository ? `https://github.com/${data.repository}/releases` : "#acervo";
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "DATASUS Releases — catálogo público de versões",
+    description: "Catálogo independente de versões de sistemas e tabelas relacionados ao DATASUS, com origem rastreável e downloads HTTPS.",
+    url: "https://datasus.vercel.app/",
+    isPartOf: { "@type": "WebSite", name: "DATASUS Releases", url: "https://datasus.vercel.app/" },
+    about: ["SISAIH01", "BPA", "SIA", "CIHA01", "SIGTAP"],
+  };
 
   async function refreshManifest() {
     setIsRefreshing(true);
@@ -60,11 +71,34 @@ export default function Home() {
     } catch {
       setCatalogStatus("Não foi possível atualizar agora. O último catálogo disponível continua em exibição.");
     } finally {
+      setIsLoading(false);
       window.setTimeout(() => setIsRefreshing(false), 250);
     }
   }
 
   useEffect(() => { void refreshManifest(); }, []);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    animate(".hero-animate", {
+      opacity: [0, 1],
+      translateY: [18, 0],
+      duration: 650,
+      delay: stagger(75),
+      ease: "outCubic",
+    });
+  }, []);
+
+  useEffect(() => {
+    if (isLoading || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    animate(".release-card", {
+      opacity: [0, 1],
+      translateY: [10, 0],
+      duration: 420,
+      delay: stagger(55),
+      ease: "outCubic",
+    });
+  }, [data.releases.length, filter, isLoading]);
 
   const visibleReleases = useMemo(
     () => filter === "ALL" ? data.releases : data.releases.filter((release) => release.program === filter),
@@ -74,6 +108,7 @@ export default function Home() {
 
   return (
     <main id="conteudo" tabIndex={-1} className="site-shell">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <a className="skip-link" href="#acervo">Pular para o acervo de releases</a>
 
       <header className="site-header">
@@ -101,15 +136,15 @@ export default function Home() {
         </div>
         <div className="site-container hero-content">
           <div className="hero-copy">
-            <p className="eyebrow"><span />Arquivo de versões oficiais</p>
-            <h1 id="hero-heading">A versão certa.<br /><span>No lugar certo.</span></h1>
-            <p className="hero-description">Um catálogo público, simples de consultar e sincronizado diariamente com os portais oficiais do DATASUS.</p>
-            <div className="hero-actions">
+            <p className="eyebrow hero-animate"><span />Arquivo de versões oficiais</p>
+            <h1 id="hero-heading" className="hero-animate">A versão certa.<br /><span>No lugar certo.</span></h1>
+            <p className="hero-description hero-animate">Um catálogo público, simples de consultar e sincronizado diariamente com os portais oficiais do DATASUS.</p>
+            <div className="hero-actions hero-animate">
               <a href="#acervo" className="primary-link">Consultar arquivos <LocalIcon name="arrow-up-right" className="h-4 w-4 icon-on-accent" /></a>
               <span className="hero-note">Atualização automática · 07:00 BRT</span>
             </div>
           </div>
-          <div className="hero-monitor" aria-hidden="true">
+          <div className="hero-monitor hero-animate" aria-hidden="true">
             <p>faixa de monitoramento / 05</p>
             <div><span>Fontes</span><strong>SIH · BPA · SIA · CIHA01 · SIGTAP</strong></div>
             <div><span>Consulta</span><strong>Diária · 07:00 BRT</strong></div>
@@ -120,7 +155,7 @@ export default function Home() {
 
       <section className="site-container stats-grid" aria-label="Resumo do catálogo">
         {[
-          { label: "Fontes monitoradas", value: "05", note: "SIH, SIA, CIHA01 e SIGTAP" },
+          { label: "Fontes monitoradas", value: "05", note: "SIH, BPA, SIA, CIHA01 e SIGTAP" },
           { label: "Arquivos no acervo", value: String(data.releases.length).padStart(2, "0"), note: releasedCount ? `${releasedCount} em releases` : "primeira publicação pendente" },
           { label: "Próxima consulta", value: "07:00", note: "horário de Brasília" },
         ].map((stat) => (
@@ -152,6 +187,7 @@ export default function Home() {
               type="button"
               onClick={() => setFilter(program)}
               aria-pressed={filter === program}
+              aria-current={filter === program ? "page" : undefined}
               className={`filter-button ${filter === program ? "is-active" : ""}`}
             >
               {programLabels[program]}
@@ -159,8 +195,12 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="release-list" aria-busy={isRefreshing}>
-          {visibleReleases.length ? visibleReleases.map((release, index) => <ReleaseCard release={release} index={index} key={release.id} />) : (
+        <div className="release-list" aria-busy={isRefreshing || isLoading}>
+          {isLoading && !data.releases.length ? (
+            <div className="skeleton-list" aria-label="Carregando releases" role="status">
+              {[1, 2, 3].map((item) => <div className="release-skeleton" key={item}><span /><div><i /><b /><em /></div><strong /></div>)}
+            </div>
+          ) : visibleReleases.length ? visibleReleases.map((release, index) => <ReleaseCard release={release} index={index} key={release.id} />) : (
             <div className="empty-state" role="status">
               Nenhuma release pública compatível foi encontrada no repositório configurado. Confira a variável <code>DATASUS_RELEASES_REPOSITORY</code> e se as Actions do fork estão habilitadas.
             </div>
@@ -178,11 +218,11 @@ export default function Home() {
           <div>
             <p className="eyebrow accent"><span />Transparência de origem</p>
             <h2 id="sources-heading">Fontes sob consulta diária</h2>
-            <p>A automação compara as páginas dos sistemas e publica somente arquivos executáveis que atendem às regras de cada fonte.</p>
+            <p>A automação consulta as fontes oficiais, identifica a versão publicada, registra a origem e disponibiliza uma cópia em release pública HTTPS. O DATASUS Releases é independente e não representa institucionalmente o Ministério da Saúde ou o DATASUS.</p>
           </div>
           <div className="sources-grid">
             {sources.map((source) => (
-              <a key={source.id} href={source.href} target="_blank" rel="noreferrer" className="source-card">
+              <a key={source.id} href={source.href} target="_blank" rel="noreferrer" className="source-card" aria-label={`${source.title}: abrir fonte oficial em nova aba`}>
                 <img src={source.asset} alt="" aria-hidden="true" width="360" height="260" />
                 <span className="source-overlay" />
                 <span className="source-content">
@@ -197,7 +237,7 @@ export default function Home() {
 
       <footer className="site-container site-footer">
         <div className="footer-main">
-          <p><LocalIcon name="archive" className="h-[18px] w-[18px]" />Catálogo independente de consulta. Fontes e arquivos pertencem aos respectivos órgãos oficiais.</p>
+          <p><LocalIcon name="archive" className="h-[18px] w-[18px]" />Projeto independente e informativo; não representa institucionalmente o Ministério da Saúde ou o DATASUS. Fontes e arquivos pertencem aos respectivos órgãos oficiais.</p>
           <div className="footer-tags"><span><LocalIcon name="check" className="h-[13px] w-[13px]" />rastreável</span><span><LocalIcon name="clock" className="h-[13px] w-[13px]" />diário</span><span><LocalIcon name="database" className="h-[13px] w-[13px]" />público</span></div>
         </div>
         <div className="footer-legal">
