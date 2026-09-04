@@ -1,0 +1,20 @@
+Requisitos recebidos em pasted_content.txt para evolução do DATASUS Releases:
+
+- Preservar arquitetura, identidade visual, catálogo, integração, releases, textos relevantes, páginas legais e fluxo de navegação.
+- Prioridades: funcionalidade, acessibilidade, performance, SEO, UX/UI e microinterações.
+- Integrar Anime.js de modo sutil no hero, cards e indicadores, respeitando prefers-reduced-motion.
+- Adicionar skeleton/loading elegante, filtros com estado ativo claro e aria-current/aria-pressed.
+- Auditar WCAG 2.2 AA: teclado, foco visível, contraste, screen reader, landmarks, headings, labels, estados dinâmicos e semântica.
+- Manter e revisar /termos, /privacidade, impressão, responsividade e navegação.
+- SEO: title, description, H1/headings, canonical, robots, sitemap, JSON-LD, Open Graph, Twitter metadata, links internos e indexabilidade.
+- Melhorar Core Web Vitals, JavaScript, imagens, fontes e evitar dependências desnecessárias.
+- Testar viewport mobile 320/360/390/430px, tablet e desktop; evitar overflow horizontal.
+- Versionar todos os assets necessários no GitHub; gerar somente imagens úteis e coerentes com a identidade atual.
+- Entregar relatório final sobre SEO, Accessibility, Anime.js, Performance e testes lint/build/tests/accessibility/SEO/responsive.
+- Critério: não quebrar funcionalidades existentes nem criar um produto diferente.
+
+Fontes externas observadas anteriormente:
+- Página SIGTAP: http://sigtap.datasus.gov.br/tabela-unificada/app/download.jsp
+- RSS oficial de competências: http://sigtap.datasus.gov.br/tabela-unificada/competencias.rss
+- Documentação oficial: https://wiki.saude.gov.br/sigtap/index.php/Download
+- Competência publicada observada: 08/2026; arquivo TabelaUnificada_202608_v2608141139.zip; tamanho 2.153.883 bytes.
