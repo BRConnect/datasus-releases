@@ -6,7 +6,7 @@ import { LegalShell } from "@/components/legal-shell";
 
 export const metadata: Metadata = {
   title: "Política de Privacidade",
-  description: "Como o DATASUS Releases trata dados técnicos e métricas agregadas de acesso.",
+  description: "Política de Privacidade do DATASUS Releases sobre tema local, métricas agregadas, Vercel, GitHub e dados técnicos de acesso.",
   alternates: { canonical: "/privacidade" },
 };
 
@@ -29,11 +29,11 @@ export default function PrivacyPage() {
       summary="Explicação objetiva sobre dados técnicos, métricas anônimas e os canais para exercer direitos relacionados à privacidade."
       sections={sections}
     >
-      <p className="legal-lead">Esta política descreve o tratamento de informações no DATASUS Releases. O site não possui cadastro, área logada, formulário de contato nem coleta intencional de dados de saúde, dados de pacientes ou credenciais.</p>
+      <p className="legal-lead">Esta política descreve o tratamento de informações no DATASUS Releases. O site não possui cadastro, área logada, formulário de contato ou sistema próprio de contas, e não solicita nem coleta intencionalmente dados de saúde, dados de pacientes, credenciais ou arquivos enviados por usuários.</p>
 
       <section id="responsavel">
         <h2>1. Responsável pelo site</h2>
-        <p>O responsável pelo projeto é <strong>Lucas Camargo Stivan</strong>. Para dúvidas, solicitações de privacidade ou relato de conteúdo inadequado, utilize as <a href="https://github.com/BRConnect/datasus-releases/issues" target="_blank" rel="noreferrer">Issues públicas do repositório</a>. Não inclua dados pessoais, credenciais ou dados de saúde nesse canal.</p>
+        <p>O responsável pelo projeto é <strong>Lucas Camargo Stivan</strong>. Para dúvidas, solicitações de privacidade ou relato de conteúdo inadequado, utilize as <a href="https://github.com/BRConnect/datasus-releases/issues" target="_blank" rel="noopener noreferrer">Issues públicas do repositório</a>. Não inclua dados pessoais, credenciais ou dados de saúde nesse canal público; quando possível, descreva apenas o problema técnico necessário para o atendimento.</p>
       </section>
 
       <section id="dados">
@@ -45,28 +45,29 @@ export default function PrivacyPage() {
               <tr><th scope="row">Preferência local</th><td>Tema claro ou escuro</td><td>Manter a aparência escolhida no seu próprio navegador. Essa preferência é armazenada localmente e não é enviada pelo código do site.</td></tr>
               <tr><th scope="row">Métricas agregadas</th><td>Página acessada, referenciador, tipo de dispositivo, navegador e localização aproximada</td><td>Entender o uso geral do catálogo, priorizar melhorias e detectar problemas de navegação.</td></tr>
               <tr><th scope="row">Desempenho</th><td>Web Vitals, rota/URL, tipo de rede, navegador, dispositivo e país</td><td>Medir a experiência real de carregamento e corrigir gargalos técnicos.</td></tr>
+              <tr><th scope="row">Infraestrutura</th><td>Endereço IP, data/hora, user-agent e registros técnicos eventualmente mantidos por provedores</td><td>Entregar o site, prevenir abuso, investigar falhas e manter a segurança da hospedagem; o projeto não usa esses registros para criar perfis individuais.</td></tr>
             </tbody>
           </table>
         </div>
-        <p>O site não solicita nome, e-mail, CPF, dados de saúde ou informações financeiras. Evite incluir dados pessoais nas URLs e nos canais públicos vinculados ao projeto.</p>
+        <p>O site não solicita nome, e-mail, CPF, dados de saúde ou informações financeiras. A preferência de tema é armazenada somente no armazenamento local do navegador. Evite incluir dados pessoais nas URLs, nos parâmetros de busca e nos canais públicos vinculados ao projeto.</p>
       </section>
 
       <section id="medicao">
         <h2>3. Web Analytics e Speed Insights</h2>
-        <p>Quando ativados na Vercel, o Web Analytics e o Speed Insights registram pontos de dados para estatísticas agregadas e desempenho. Segundo a documentação da Vercel, essas ferramentas foram desenhadas para registrar dados anônimos, sem reconstruir sessões de navegação nem identificar uma pessoa ou endereço IP. O Web Analytics não utiliza cookies de terceiros; seu identificador de sessão é descartado após 24 horas.</p>
-        <p>Esses recursos usam scripts de medição da Vercel. Eles não são empregados pelo projeto para criar perfis individualizados, realizar publicidade comportamental ou rastrear pessoas entre sites.</p>
+        <p>Quando ativados na Vercel, o Web Analytics e o Speed Insights registram pontos de dados para estatísticas agregadas e desempenho. Segundo a documentação da Vercel, essas ferramentas foram desenhadas para medir o uso e a experiência do site com dados agregados, sem que o projeto as utilize para reconstruir sessões de navegação ou identificar uma pessoa. As características de retenção, cookies e processamento podem mudar conforme a configuração da implantação e a política vigente da Vercel; consulte as referências ao final desta página.</p>
+        <p>Esses recursos usam scripts de medição da Vercel. Eles não são empregados pelo projeto para criar perfis individualizados, realizar publicidade comportamental ou rastrear pessoas entre sites. Se os recursos forem desativados em uma implantação específica, esta seção continua descrevendo a finalidade prevista, não uma garantia de que nenhum registro técnico de infraestrutura exista.</p>
       </section>
 
       <section id="compartilhamento">
         <h2>4. Serviços de terceiros e links externos</h2>
-        <p>A hospedagem e as métricas são operadas pela Vercel. O catálogo também consulta a API pública do GitHub para listar releases e direciona você a páginas do GitHub e dos portais oficiais do DATASUS. Cada serviço externo possui sua própria política, práticas de segurança e possível processamento internacional de dados.</p>
-        <p>O DATASUS Releases não vende dados pessoais nem compartilha deliberadamente dados para publicidade. Informações técnicas necessárias à entrega do site podem ser tratadas pelos provedores de infraestrutura conforme suas políticas e configurações aplicáveis.</p>
+        <p>A hospedagem e, quando habilitadas, as métricas são operadas pela Vercel. O catálogo consulta a API pública do GitHub para listar releases e direciona você a páginas do GitHub e dos portais oficiais do DATASUS, incluindo fontes de SIH, BPA, SIA, CIHA01 e SIGTAP. Cada serviço externo possui sua própria política, práticas de segurança, retenção e possível processamento internacional de dados.</p>
+        <p>O DATASUS Releases não vende dados pessoais nem compartilha deliberadamente dados para publicidade. Informações técnicas necessárias à entrega do site, à proteção contra abuso e à medição de desempenho podem ser tratadas pelos provedores de infraestrutura conforme suas políticas e configurações aplicáveis. Os downloads e links externos são acessados diretamente pelo navegador e podem gerar registros nos respectivos serviços.</p>
       </section>
 
       <section id="direitos">
         <h2>5. Seus direitos</h2>
-        <p>Nos termos da Lei Geral de Proteção de Dados (LGPD), titulares podem solicitar confirmação de tratamento, acesso, correção, anonimização, bloqueio, eliminação, portabilidade quando aplicável, informação sobre compartilhamentos e revogação de consentimento. Como o projeto foi estruturado para não manter uma base de usuários identificáveis, algumas solicitações podem não ser tecnicamente aplicáveis.</p>
-        <p>Para encaminhar uma solicitação, abra uma Issue sem publicar informações sensíveis e indique que se trata de assunto de privacidade. Caso a solicitação envolva dados tratados diretamente por um provedor, como Vercel ou GitHub, ele poderá orientar você a usar seus próprios canais de atendimento.</p>
+        <p>Nos termos da Lei Geral de Proteção de Dados (LGPD), titulares podem solicitar confirmação de tratamento, acesso, correção, anonimização, bloqueio, eliminação, portabilidade quando aplicável, informação sobre compartilhamentos e revogação de consentimento. Como o projeto foi estruturado para não manter uma base própria de usuários identificáveis, algumas solicitações podem não ser tecnicamente aplicáveis; nesses casos, a resposta explicará a limitação e, quando pertinente, indicará o provedor responsável.</p>
+        <p>Para encaminhar uma solicitação, abra uma Issue sem publicar informações sensíveis e indique que se trata de assunto de privacidade. Como Issues são públicas, não use esse canal para enviar documentos, identificadores, tokens ou dados de saúde. Caso a solicitação envolva dados tratados diretamente por um provedor, como Vercel ou GitHub, ele poderá orientar você a usar seus próprios canais de atendimento.</p>
       </section>
 
       <section id="seguranca">
@@ -78,10 +79,10 @@ export default function PrivacyPage() {
       <section id="referencias">
         <h2>7. Referências</h2>
         <ol className="legal-references">
-          <li><a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank" rel="noreferrer">Lei nº 13.709/2018 — Lei Geral de Proteção de Dados Pessoais (LGPD)</a>.</li>
-          <li><a href="https://www.gov.br/mec/pt-br/acesso-a-informacao/lgpd/direitos-titulares-dados" target="_blank" rel="noreferrer">Direitos dos Titulares de Dados Pessoais — Gov.br</a>.</li>
-          <li><a href="https://vercel.com/docs/analytics/privacy-policy" target="_blank" rel="noreferrer">Vercel Web Analytics — Privacy and Compliance</a>.</li>
-          <li><a href="https://vercel.com/docs/speed-insights/privacy-policy" target="_blank" rel="noreferrer">Vercel Speed Insights — Privacy &amp; Compliance</a>.</li>
+          <li><a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank" rel="noopener noreferrer">Lei nº 13.709/2018 — Lei Geral de Proteção de Dados Pessoais (LGPD)</a>.</li>
+          <li><a href="https://www.gov.br/mec/pt-br/acesso-a-informacao/lgpd/direitos-titulares-dados" target="_blank" rel="noopener noreferrer">Direitos dos Titulares de Dados Pessoais — Gov.br</a>.</li>
+          <li><a href="https://vercel.com/docs/analytics/privacy-policy" target="_blank" rel="noopener noreferrer">Vercel Web Analytics — Privacy and Compliance</a>.</li>
+          <li><a href="https://vercel.com/docs/speed-insights/privacy-policy" target="_blank" rel="noopener noreferrer">Vercel Speed Insights — Privacy &amp; Compliance</a>.</li>
         </ol>
       </section>
     </LegalShell>

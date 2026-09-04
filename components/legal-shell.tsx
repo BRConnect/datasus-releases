@@ -51,7 +51,7 @@ export function LegalShell({ active, eyebrow, title, summary, sections, children
             <p>{summary}</p>
           </div>
           <div className="legal-hero-actions">
-            <p>Última atualização: <time dateTime="2026-08-15">15 de agosto de 2026</time></p>
+            <p>Última atualização: <time dateTime="2026-09-04">4 de setembro de 2026</time></p>
             <PrintDocumentButton />
           </div>
         </div>
@@ -72,7 +72,7 @@ export function LegalShell({ active, eyebrow, title, summary, sections, children
         <article id="documento" className="legal-document" tabIndex={-1}>
           <div className="legal-record" aria-label="Identificação do documento">
             <span><i />Documento público</span>
-            <strong>{active === "termos" ? "REG. TERMOS-2026.01" : "REG. PRIV-2026.01"}</strong>
+            <strong>{active === "termos" ? "REG. TERMOS-2026.02" : "REG. PRIV-2026.02"}</strong>
             <span>Arquivo digital / versão vigente</span>
           </div>
           {children}
