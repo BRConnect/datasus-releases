@@ -57,6 +57,10 @@ export function LegalShell({ active, eyebrow, title, summary, sections, children
         </div>
       </section>
 
+      <nav className="site-container breadcrumbs" aria-label="Breadcrumb">
+        <Link href="/">Início</Link><span aria-hidden="true">›</span><span aria-current="page">{title}</span>
+      </nav>
+
       <div className="site-container legal-layout">
         <aside className="legal-index" aria-label="Índice do documento">
           <p>Índice</p>
@@ -76,7 +80,7 @@ export function LegalShell({ active, eyebrow, title, summary, sections, children
       </div>
 
       <footer className="site-container legal-footer">
-        <p>© 2026–{currentYear} <a href="https://github.com/stivan-lucas" target="_blank" rel="noreferrer">Lucas Camargo Stivan</a>. Todos os direitos reservados.</p>
+        <p>© 2026–{currentYear} <a href="https://github.com/stivan-lucas" target="_blank" rel="noopener noreferrer">Lucas Camargo Stivan</a>. Todos os direitos reservados.</p>
         <nav aria-label="Documentos legais">
           <Link href="/termos">Termos de Uso</Link>
           <Link href="/privacidade">Política de Privacidade</Link>
