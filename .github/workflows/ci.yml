@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Testes e build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Obter código
+        uses: actions/checkout@v5
+
+      - name: Preparar Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.21"
+
+      - name: Instalar dependências
+        run: bun install --frozen-lockfile
+
+      - name: Verificar tipos
+        run: bun run check
+
+      - name: Executar testes unitários
+        run: bun run test
+
+      - name: Validar build de produção
+        run: bun run build

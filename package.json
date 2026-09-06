@@ -12,6 +12,7 @@
     "build": "next build",
     "start": "next start",
     "check": "tsc --noEmit",
+    "test": "bun test",
     "sync:datasus": "bun run scripts/sync-datasus.ts"
   },
   "dependencies": {

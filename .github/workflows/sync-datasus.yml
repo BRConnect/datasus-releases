@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: datasus-release-sync
@@ -39,10 +40,14 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+          sync_branch="automation/datasus-sync"
+
           for attempt in 1 2 3; do
             echo "Sincronização/publicação tentativa ${attempt}/3."
             git fetch origin main
-            git reset --hard origin/main
+            git checkout -B "${sync_branch}" origin/main
+            bun run check
+            bun run test
             bun run sync:datasus
 
             if git diff --quiet -- public/releases.json; then
@@ -52,12 +57,18 @@ jobs:
 
             git add public/releases.json
             git commit -m "chore: sincronizar releases DATASUS"
-            if git push origin HEAD:main; then
-              echo "Manifesto publicado com sucesso."
+            git push --force-with-lease origin "HEAD:${sync_branch}"
+
+            if gh pr view "${sync_branch}" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
+              echo "PR de sincronização já existe; branch atualizada."
               exit 0
             fi
 
-            echo "Push rejeitado por alteração concorrente; refazendo fetch e sincronização."
+            gh pr create --repo "${GITHUB_REPOSITORY}" --base main --head "${sync_branch}" \
+              --title "chore: sincronizar releases DATASUS" \
+              --body "Atualização automática do manifesto a partir das fontes oficiais DATASUS. Este PR será validado pela CI antes do merge."
+            echo "PR de sincronização criado com sucesso."
+            exit 0
           done
 
           echo "Não foi possível publicar o manifesto após 3 tentativas."

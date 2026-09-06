@@ -1,5 +1,8 @@
 # DATASUS Releases
 
+[![CI](https://github.com/BRConnect/datasus-releases/actions/workflows/ci.yml/badge.svg)](https://github.com/BRConnect/datasus-releases/actions/workflows/ci.yml)
+[![Licença Apache 2.0](https://img.shields.io/badge/licen%C3%A7a-Apache%202.0-blue.svg)](LICENSE)
+
 ![Marca do projeto](public/assets/brand-mark.svg)
 
 > **Versões oficiais, organizadas para consulta rápida e downloads em HTTPS.**
@@ -51,8 +54,24 @@ Abra [http://localhost:3000](http://localhost:3000). Para validar a aplicação 
 
 ```bash
 bun run check
+bun run test
 bun run build
 bun run start
+```
+
+### Testes e integração contínua
+
+O projeto possui uma suíte de testes unitários para os parsers de SISAIH01, BPA, SIA, CIHA01 e SIGTAP, além dos utilitários de validação, metadados e agrupamento de releases. Os testes usam respostas HTML/RSS fixas e dependências simuladas; portanto, não fazem chamadas aos portais DATASUS durante a CI. Dessa forma, uma indisponibilidade temporária, timeout, bloqueio de rede ou mudança de conteúdo nos sites externos não transforma um problema operacional externo em falso erro de build.
+
+O workflow [`CI`](.github/workflows/ci.yml) é executado em cada pull request para `main` e em cada push para `main`. Ele instala as dependências com lockfile, executa a verificação TypeScript, roda todos os testes e valida o build de produção. O merge para `main` exige que esse job termine com sucesso.
+
+O sincronizador de releases continua sendo executado separadamente pelo workflow diário. Quando uma fonte oficial falha ou não pode ser interpretada, ele registra o erro e preserva os dados válidos anteriores; essa rotina não é usada como teste obrigatório de pull request porque depende de sites externos. Para reproduzir a suíte localmente:
+
+```bash
+bun install --frozen-lockfile
+bun run check
+bun run test
+bun run build
 ```
 
 ## Usar o seu fork
@@ -92,8 +111,9 @@ Os SVGs locais recebem cache imutável de um ano. A rota `/api/releases` usa cac
 app/                         # Interface Next.js e rota de API
 components/                  # Fichas de releases e ícones locais
 public/assets/               # Marca, ilustrações e ícones SVG autocontidos
-scripts/sync-datasus.ts      # Sincronizador portátil em Bun
-.github/workflows/           # Agendamento diário e publicação das releases
+scripts/sync-datasus.ts      # Ponto de entrada do sincronizador
+scripts/sync/                # Parsers, rede, GitHub, tipos e testes
+.github/workflows/           # CI e agendamento diário de releases
 public/releases.json         # Último manifesto válido para contingência
 ```
 
