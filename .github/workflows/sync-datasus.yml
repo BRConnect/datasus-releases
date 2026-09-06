@@ -45,6 +45,7 @@ jobs:
           for attempt in 1 2 3; do
             echo "Sincronização/publicação tentativa ${attempt}/3."
             git fetch origin main
+            git fetch origin "${sync_branch}" || true
             git checkout -B "${sync_branch}" origin/main
             bun run check
             bun run test
