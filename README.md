@@ -5,43 +5,87 @@
 
 ![Marca do projeto](public/assets/brand-mark.svg)
 
-> **Versões oficiais, organizadas para consulta rápida e downloads em HTTPS.**
+> **Versões oficiais do DATASUS, organizadas para consulta rápida e downloads em HTTPS.**
 
-O **DATASUS Releases** é um catálogo independente que reúne os arquivos mais recentes de **SISAIH01**, **BPA**, **SIA**, **CIHA01** e **SIGTAP** em releases públicas do GitHub. A aplicação foi criada por [Lucas Camargo Stivan](https://github.com/stivan-lucas) para reduzir o esforço de localizar arquivos em páginas distintas do DATASUS e apresentar um caminho de download moderno, auditável e compatível com navegadores atuais.
+O **DATASUS Releases** é um catálogo independente que organiza instaladores e tabelas públicas de **SISAIH01, BPA, SIA, CIHA01 e SIGTAP** em [GitHub Releases](https://github.com/BRConnect/datasus-releases/releases). A aplicação reduz o esforço de localizar arquivos publicados em páginas distintas, preserva a origem de cada item e oferece links versionados em HTTPS.
+
+> **Importante:** este projeto não substitui os portais oficiais, não declara afiliação ao Ministério da Saúde ou ao DATASUS e não executa os arquivos baixados. Antes de instalar qualquer arquivo, confira a origem, o nome, o tamanho e a integridade quando essa informação estiver disponível.
+
+## Índice
+
+- [Acesso rápido](#acesso-rápido)
+- [Por que este projeto existe?](#por-que-este-projeto-existe)
+- [Como funciona](#como-funciona)
+- [Programas acompanhados](#programas-acompanhados)
+- [Executar localmente](#executar-localmente)
+- [Testar e validar](#testar-e-validar)
+- [Sincronização de releases](#sincronização-de-releases)
+- [Usar um fork](#usar-um-fork)
+- [Publicar na Vercel](#publicar-na-vercel)
+- [Estrutura do projeto](#estrutura-do-projeto)
+- [Segurança e limites](#segurança-e-limites)
+- [Licença e autoria](#licença-e-autoria)
+
+## Acesso rápido
+
+| O que você procura | Link |
+| --- | --- |
+| Catálogo web | [datasus-releases.vercel.app](https://datasus-releases.vercel.app) |
+| Releases e downloads | [GitHub Releases](https://github.com/BRConnect/datasus-releases/releases) |
+| Fontes oficiais documentadas | [`docs/fontes-oficiais.md`](docs/fontes-oficiais.md) |
+| Configuração de fork | [`docs/configuracao-do-fork.md`](docs/configuracao-do-fork.md) |
+| Termos de uso | [`/termos`](https://datasus-releases.vercel.app/termos) |
+| Política de privacidade | [`/privacidade`](https://datasus-releases.vercel.app/privacidade) |
 
 ## Por que este projeto existe?
 
-Parte das distribuições históricas desses sistemas é publicada por FTP. Esse protocolo deixou de ser uma opção prática para navegação cotidiana: o Chrome removeu seu suporte nativo a FTP, e os navegadores atuais concentram suas garantias de segurança e interoperabilidade no HTTPS.[1] O projeto consulta as páginas oficiais, preserva a origem de cada arquivo e republica os instaladores selecionados como **assets de GitHub Releases com URLs HTTPS**.
+Parte das distribuições históricas desses sistemas é publicada por FTP. Esse protocolo deixou de ser uma opção prática para navegação cotidiana: navegadores atuais concentram suas garantias de segurança e interoperabilidade no HTTPS.[1] O projeto consulta páginas oficiais, mantém os metadados de origem e republica os instaladores selecionados como assets de GitHub Releases com URLs HTTPS.
 
-> O objetivo não é substituir os portais oficiais. O catálogo organiza a descoberta e a distribuição HTTPS dos arquivos, mantendo o vínculo de auditoria com cada fonte DATASUS.
+A republicação não altera o conteúdo dos arquivos oficiais. Ela apenas oferece uma camada de descoberta e distribuição mais conveniente, com tags, nomes de arquivo e histórico rastreáveis no GitHub.
 
 ## Como funciona
 
-| Camada | Responsabilidade | Resultado para quem usa o site |
-| --- | --- | --- |
-| **Fontes oficiais** | Expõem as versões e os instaladores originais. | A origem de cada arquivo permanece visível. |
-| **GitHub Actions** | Executa uma rotina diária às 07:00 BRT, reconhece os arquivos atuais e cria ou atualiza releases. | Downloads públicos por HTTPS e sem cliente FTP. |
-| **GitHub Releases** | Armazena os binários anexados às tags do projeto. | URLs diretas, versionadas e públicas para os instaladores. |
-| **Next.js** | Consulta a API pública do GitHub e apresenta apenas os assets válidos. | Catálogo atualizado, rápido e compatível com Vercel. |
-| **SVGs locais** | Formam a marca, ilustrações e ícones em `public/assets/`. | Interface autocontida, sem imagens hospedadas em serviços externos. |
+```text
+Fontes oficiais DATASUS
+          │ páginas HTML, RSS e arquivos
+          ▼
+Sincronizador GitHub Actions
+          │ parsers + validação de nomes + downloads
+          ▼
+GitHub Releases ───► public/releases.json ───► catálogo Next.js
+```
 
-O agendamento usa o evento `schedule` do GitHub Actions. Workflows programados precisam existir na branch padrão do repositório, conforme a documentação do GitHub.[2]
+| Camada | Responsabilidade | Resultado |
+| --- | --- | --- |
+| **Fontes oficiais** | Publicam versões, competências e arquivos originais. | A origem de cada item permanece visível. |
+| **Sincronizador** | Consulta as fontes, interpreta os metadados, valida nomes e publica assets. | O catálogo é atualizado sem executar os binários. |
+| **GitHub Releases** | Armazena os arquivos anexados às tags do projeto. | Downloads públicos, versionados e disponíveis por HTTPS. |
+| **Manifesto** | Registra metadados e URLs de download em `public/releases.json`. | O site continua funcional com um último estado válido quando uma fonte falha. |
+| **Next.js** | Consulta o manifesto e a API pública do GitHub para renderizar o catálogo. | Interface rápida, responsiva e compatível com Vercel. |
+
+O workflow [`sync-datasus.yml`](.github/workflows/sync-datasus.yml) é executado diariamente às **07:00 no horário de Brasília (10:00 UTC)** e também pode ser disparado manualmente pela aba **Actions**. A atualização de código passa pelo workflow [`ci.yml`](.github/workflows/ci.yml), que valida TypeScript, testes e build.
 
 ## Programas acompanhados
 
-| Programa | Arquivo reconhecido | Regra aplicada |
+| Programa | Arquivo reconhecido | Regra de seleção |
 | --- | --- | --- |
-| **SISAIH01** | `sisaih01_ver*.exe` | Publica todas as versões indicadas para a competência mais recente. |
+| **SISAIH01** | `sisaih01_ver*.exe` | Publica as versões indicadas para a competência mais recente. |
 | **BPA** | `BPAMAG*.exe` | Publica a maior versão encontrada. |
-| **SIA** | `BDSIAAAAAMMx.exe` | Publica o maior ano, mês e sufixo disponíveis. |
-| **CIHA01** | `CIHA01_VERNNNN.exe` | Publica a versão mais recente indicada na página oficial do CIHA. |
-| **SIGTAP** | `TabelaUnificada_AAAAMM_vNNNNNNNNNN.zip` | Consulta o RSS oficial, seleciona a maior competência e tenta o FTP várias vezes antes de preservar o último manifesto válido. |
+| **SIA** | `BDSIAAAAAMMx.exe` | Seleciona o maior ano, mês e sufixo disponíveis. |
+| **CIHA01** | `CIHA01_VERNNNN.exe` | Seleciona a versão mais recente indicada na página oficial. |
+| **SIGTAP** | `TabelaUnificada_AAAAMM_vNNNNNNNNNN.zip` | Consulta o RSS, seleciona a maior competência e tenta o download antes de preservar o manifesto anterior. |
 
-O catálogo descarta assets que não correspondem a esses padrões. Quando uma fonte falha temporariamente, o sincronizador conserva o último manifesto válido em vez de substituir o acervo por dados incompletos.
+Assets que não correspondem aos padrões esperados são descartados. Se uma fonte estiver temporariamente indisponível ou mudar de formato, o sincronizador registra o erro e conserva os dados válidos anteriores em vez de publicar um acervo incompleto.
 
 ## Executar localmente
 
-O projeto usa **Bun** como gerenciador de pacotes e pode ser executado em Windows, Linux ou macOS. Não é preciso criar conta, configurar token ou instalar um cliente FTP apenas para rodar a interface localmente.
+Requisitos:
+
+- [Bun](https://bun.sh/) 1.2.21 ou superior;
+- Node.js 20.9 ou superior, conforme o `package.json`;
+- acesso à internet apenas para instalar dependências e, no caso da sincronização, consultar as fontes e o GitHub.
+
+Para executar a interface:
 
 ```bash
 git clone https://github.com/BRConnect/datasus-releases.git
@@ -50,76 +94,96 @@ bun install --frozen-lockfile
 bun run dev
 ```
 
-Abra [http://localhost:3000](http://localhost:3000). Para validar a aplicação antes de publicar mudanças, use:
+Abra <http://localhost:3000> no navegador. O modo de desenvolvimento atualiza a página automaticamente após alterações nos arquivos.
 
-```bash
-bun run check
-bun run test
-bun run build
-bun run start
-```
+## Testar e validar
 
-### Testes e integração contínua
-
-O projeto possui uma suíte de testes unitários para os parsers de SISAIH01, BPA, SIA, CIHA01 e SIGTAP, além dos utilitários de validação, metadados e agrupamento de releases. Os testes usam respostas HTML/RSS fixas e dependências simuladas; portanto, não fazem chamadas aos portais DATASUS durante a CI. Dessa forma, uma indisponibilidade temporária, timeout, bloqueio de rede ou mudança de conteúdo nos sites externos não transforma um problema operacional externo em falso erro de build.
-
-O workflow [`CI`](.github/workflows/ci.yml) é executado em cada pull request para `main` e em cada push para `main`. Ele instala as dependências com lockfile, executa a verificação TypeScript, roda todos os testes e valida o build de produção. O merge para `main` exige que esse job termine com sucesso.
-
-O sincronizador de releases continua sendo executado separadamente pelo workflow diário. Quando uma fonte oficial falha ou não pode ser interpretada, ele registra o erro e preserva os dados válidos anteriores; essa rotina não é usada como teste obrigatório de pull request porque depende de sites externos. Para reproduzir a suíte localmente:
+Antes de enviar uma alteração, execute:
 
 ```bash
 bun install --frozen-lockfile
-bun run check
-bun run test
-bun run build
+bun run check       # TypeScript sem emissão de arquivos
+bun run test        # parsers, validações e sincronizador
+bun run build       # build de produção Next.js
 ```
 
-## Usar o seu fork
+Para testar o build localmente:
 
-Após fazer um fork, habilite o GitHub Actions na aba **Actions** e crie o arquivo `.env.local` na raiz do projeto. Esse arquivo é ignorado pelo Git e não deve ser enviado ao repositório.
-
-```ini
-DATASUS_RELEASES_REPOSITORY=seu-usuario/seu-fork
+```bash
+bun run start
 ```
 
-Depois, reinicie `bun run dev`. O catálogo passará a consultar as releases públicas do seu próprio fork. A rotina diária utiliza o token temporário da própria Action; portanto, você não precisa adicionar token ao site. Um token só é necessário se executar manualmente o comando de publicação fora do GitHub:
+A suíte usa respostas HTML/RSS fixas e dependências simuladas. Portanto, os testes não dependem da disponibilidade dos portais DATASUS e não transformam um timeout externo em falso erro de CI. O build não executa os instaladores.
+
+## Sincronização de releases
+
+A rotina de publicação pode ser executada localmente por quem possui permissão de escrita no repositório:
 
 ```bash
 GH_TOKEN=seu_token_com_permissao_de_escrita bun run sync:datasus
 ```
 
-Veja [`docs/configuracao-do-fork.md`](docs/configuracao-do-fork.md) para os detalhes de configuração.
+O token é usado pelo GitHub CLI para consultar releases e publicar assets. Não coloque tokens em arquivos versionados, no `.env.local` ou no código-fonte. No GitHub Actions, a rotina utiliza o token temporário fornecido pelo próprio workflow.
+
+O sincronizador segue estas regras operacionais:
+
+1. consulta as páginas HTML/RSS oficiais em paralelo;
+2. interpreta cada resposta com um parser específico;
+3. valida o padrão do nome e agrupa itens pela tag da release;
+4. baixa e publica somente os assets esperados;
+5. atualiza `public/releases.json` com URLs HTTPS das releases;
+6. preserva o manifesto anterior quando todas as fontes falham ou quando uma publicação individual não pode ser concluída.
+
+A fonte DATASUS pode apresentar timeout, bloqueio de rede ou indisponibilidade temporária. Isso não é corrigido aumentando indefinidamente as tentativas: o código aplica limites de tempo, registra a fonte problemática e usa o último manifesto válido como contingência.
+
+## Usar um fork
+
+Depois de criar um fork:
+
+1. habilite o GitHub Actions na aba **Actions**;
+2. crie `.env.local` na raiz do projeto;
+3. configure o repositório que o catálogo deve consultar:
+
+```ini
+DATASUS_RELEASES_REPOSITORY=seu-usuario/seu-fork
+```
+
+O arquivo `.env.local` é ignorado pelo Git e não deve ser enviado ao repositório. Reinicie `bun run dev` após alterar a variável. Para detalhes, consulte [`docs/configuracao-do-fork.md`](docs/configuracao-do-fork.md).
 
 ## Publicar na Vercel
 
-A aplicação usa o App Router do Next.js e funciona sem configuração adicional na Vercel. A plataforma oferece suporte nativo a Next.js, cache de CDN e cabeçalhos `Cache-Control` para funções e rotas dinâmicas.[3]
+A aplicação usa o App Router do Next.js e pode ser publicada diretamente na Vercel:
 
-| Campo na Vercel | Valor recomendado |
+| Configuração | Valor recomendado |
 | --- | --- |
 | Framework Preset | `Next.js` |
 | Install Command | `bun install --frozen-lockfile` |
 | Build Command | `bun run build` |
-| Output Directory | Deixe em branco; o Next.js gerencia a saída. |
+| Output Directory | Deixe em branco. |
 | Node.js | 20.x ou superior |
-| Variável opcional | `DATASUS_RELEASES_REPOSITORY=usuario/repositorio` para apontar para um fork. |
+| Variável opcional | `DATASUS_RELEASES_REPOSITORY=usuario/repositorio` |
 
-Os SVGs locais recebem cache imutável de um ano. A rota `/api/releases` usa cache compartilhado de cinco minutos com revalidação em segundo plano, diminuindo chamadas à API do GitHub sem deixar o acervo desatualizado por longos períodos.
+Os SVGs locais recebem cache imutável de um ano. A rota `/api/releases` usa cache compartilhado de cinco minutos com revalidação em segundo plano, reduzindo chamadas à API do GitHub sem deixar o catálogo desatualizado por longos períodos.
 
-## Estrutura relevante
+## Estrutura do projeto
 
 ```text
-app/                         # Interface Next.js e rota de API
-components/                  # Fichas de releases e ícones locais
-public/assets/               # Marca, ilustrações e ícones SVG autocontidos
+app/                         # Interface Next.js, metadata e rotas
+components/                  # Fichas de releases, controles e ícones
+public/assets/               # Marca, ilustrações e SVGs locais
+public/releases.json         # Último manifesto válido para contingência
 scripts/sync-datasus.ts      # Ponto de entrada do sincronizador
 scripts/sync/                # Parsers, rede, GitHub, tipos e testes
-.github/workflows/           # CI e agendamento diário de releases
-public/releases.json         # Último manifesto válido para contingência
+.github/workflows/ci.yml     # Testes e build em PRs e pushes na main
+.github/workflows/sync-datasus.yml # Agendamento da sincronização
+docs/                        # Fontes, configuração e relatórios técnicos
 ```
 
 ## Segurança e limites
 
-Os executáveis são baixados e anexados às releases, mas **nunca são executados** pelo projeto nem pelo workflow. A decisão de instalar um arquivo continua sendo responsabilidade de quem faz o download. Antes de distribuir uma versão diferente, valide a origem, o nome, o tamanho e, quando disponível, a integridade do arquivo.
+Os executáveis e arquivos compactados são baixados e anexados às releases, mas **nunca são executados** pelo projeto ou pelo workflow. O GitHub Releases é uma camada de distribuição; não é uma certificação de segurança do conteúdo. Antes de instalar um arquivo, valide se a release, o nome, a competência, o tamanho e a origem correspondem ao que você espera.
+
+O projeto não fornece suporte aos sistemas DATASUS, não garante a disponibilidade dos portais oficiais e não substitui validações internas de compliance, antivírus ou políticas de instalação da sua organização.
 
 O nome **DATASUS** e os arquivos oficiais pertencem aos seus respectivos titulares. Esta aplicação é um catálogo independente e não declara afiliação institucional.
 
@@ -129,8 +193,12 @@ O código-fonte e os SVGs criados para esta aplicação são distribuídos sob a
 
 ## Referências
 
-[1] [Chrome Developers — Deprecation and removal of FTP support](https://developer.chrome.com/blog/deps-rems-ftp)
+[1]: https://developer.chrome.com/blog/deps-rems-ftp "Chrome Developers — Deprecation and removal of FTP support"
 
-[2] [GitHub Docs — Events that trigger workflows: `schedule`](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule)
+[2]: https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule "GitHub Docs — Eventos que acionam workflows"
 
-[3] [Vercel Docs — Next.js on Vercel](https://vercel.com/docs/frameworks/nextjs)
+[3]: https://vercel.com/docs/frameworks/nextjs "Vercel Docs — Next.js on Vercel"
+
+- [Chrome Developers — Deprecation and removal of FTP support][1]
+- [GitHub Docs — Events that trigger workflows: `schedule`][2]
+- [Vercel Docs — Next.js on Vercel][3]
