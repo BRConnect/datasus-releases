@@ -45,6 +45,10 @@ jobs:
           for attempt in 1 2 3; do
             echo "Sincronização/publicação tentativa ${attempt}/3."
             git fetch origin main
+            # Atualiza o lease local da branch de publicação. Sem este fetch,
+            # --force-with-lease rejeita a primeira execução após uma branch
+            # automática já ter sido criada por uma tentativa anterior.
+            git fetch origin "+refs/heads/${sync_branch}:refs/remotes/origin/${sync_branch}" || true
             git checkout -B "${sync_branch}" origin/main
             bun run check
             bun run test
