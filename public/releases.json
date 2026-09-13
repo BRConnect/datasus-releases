@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-03T13:59:12.018Z",
+  "generatedAt": "2026-09-13T13:57:48.882Z",
   "repository": "BRConnect/datasus-releases",
   "releases": [
     {
@@ -14,6 +14,33 @@
       "publishedLabel": "Competência 08/2026",
       "competence": "08/2026",
       "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sih-sisaih01-08-2026-v25-20/sisaih01_ver2520.exe",
+      "delivery": "github-release"
+    },
+    {
+      "id": "ciha01-20-33",
+      "program": "CIHA01",
+      "programName": "Comunicação de Informação Hospitalar e Ambulatorial",
+      "version": "20.33",
+      "filename": "CIHA01_VER2033.exe",
+      "size": "Conforme arquivo oficial",
+      "sourceUrl": "ftp://ftp2.datasus.gov.br/public/sistemas/dsweb/SIHD/CIHA/Programas/CIHA01_VER2033.exe",
+      "sourcePage": "https://ciha.saude.gov.br/versao/versao_ciha1.php",
+      "publishedLabel": "Versão atual",
+      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/ciha01-v20-33/CIHA01_VER2033.exe",
+      "delivery": "github-release"
+    },
+    {
+      "id": "sigtap-202609",
+      "program": "SIGTAP",
+      "programName": "Tabela de Procedimentos, Medicamentos e OPM do SUS",
+      "version": "09/2026",
+      "filename": "TabelaUnificada_202609_v2609111202.zip",
+      "size": "Conforme arquivo oficial",
+      "sourceUrl": "ftp://ftp2.datasus.gov.br/pub/sistemas/tup/downloads/TabelaUnificada_202609_v2609111202.zip",
+      "sourcePage": "http://sigtap.datasus.gov.br/tabela-unificada/app/download.jsp",
+      "publishedLabel": "Competência 09/2026",
+      "competence": "09/2026",
+      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sigtap-202609-v2609111202/TabelaUnificada_202609_v2609111202.zip",
       "delivery": "github-release"
     },
     {
@@ -40,33 +67,6 @@
       "sourcePage": "https://sia.datasus.gov.br/versao/listar_ftp_sia.php",
       "publishedLabel": "21-Aug-2026",
       "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sia-bd-202608a/BDSIA202608a.exe",
-      "delivery": "github-release"
-    },
-    {
-      "id": "ciha01-20-33",
-      "program": "CIHA01",
-      "programName": "Comunicação de Informação Hospitalar e Ambulatorial",
-      "version": "20.33",
-      "filename": "CIHA01_VER2033.exe",
-      "size": "Conforme arquivo oficial",
-      "sourceUrl": "ftp://ftp2.datasus.gov.br/public/sistemas/dsweb/SIHD/CIHA/Programas/CIHA01_VER2033.exe",
-      "sourcePage": "https://ciha.saude.gov.br/versao/versao_ciha1.php",
-      "publishedLabel": "Versão atual",
-      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/ciha01-v20-33/CIHA01_VER2033.exe",
-      "delivery": "github-release"
-    },
-    {
-      "id": "sigtap-202608",
-      "program": "SIGTAP",
-      "programName": "Tabela de Procedimentos, Medicamentos e OPM do SUS",
-      "version": "08/2026",
-      "filename": "TabelaUnificada_202608_v2608141139.zip",
-      "size": "Conforme arquivo oficial",
-      "sourceUrl": "ftp://ftp2.datasus.gov.br/pub/sistemas/tup/downloads/TabelaUnificada_202608_v2608141139.zip",
-      "sourcePage": "http://sigtap.datasus.gov.br/tabela-unificada/app/download.jsp",
-      "publishedLabel": "Competência 08/2026",
-      "competence": "08/2026",
-      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sigtap-202608-v2608141139/TabelaUnificada_202608_v2608141139.zip",
       "delivery": "github-release"
     }
   ]
