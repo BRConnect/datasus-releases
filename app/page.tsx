@@ -14,8 +14,8 @@ import { initialReleases, type ProgramId, type ReleasesPayload } from "@/lib/rel
 
 const sources = [
   { id: "SISAIH01" as const, title: "SIH · SISAIH01", description: "Autorizações de Internações Hospitalares", href: "http://sihd.datasus.gov.br/versao/versao_sisaih01.php", asset: "/assets/source-sih.svg" },
-  { id: "BPA" as const, title: "SIA · BPA", description: "Boletim de Produção Ambulatorial", href: "https://sia.datasus.gov.br/versao/listar_ftp_bpa.php", asset: "/assets/source-bpa.svg" },
-  { id: "SIA" as const, title: "SIA · banco mensal", description: "Base de dados ambulatorial por competência", href: "https://sia.datasus.gov.br/versao/listar_ftp_sia.php", asset: "/assets/source-sia.svg" },
+  { id: "BPA" as const, title: "SIA · BPA", description: "Boletim de Produção Ambulatorial", href: "http://sia.datasus.gov.br/versao/listar_ftp_bpa.php", asset: "/assets/source-bpa.svg" },
+  { id: "SIA" as const, title: "SIA · banco mensal", description: "Base de dados ambulatorial por competência", href: "http://sia.datasus.gov.br/versao/listar_ftp_sia.php", asset: "/assets/source-sia.svg" },
   { id: "CIHA01" as const, title: "CIHA01", description: "Comunicação hospitalar e ambulatorial", href: "https://ciha.saude.gov.br/versao/versao_ciha1.php", asset: "/assets/source-ciha.svg" },
   { id: "SIGTAP" as const, title: "SIGTAP", description: "Tabela de procedimentos do SUS", href: "http://sigtap.datasus.gov.br/tabela-unificada/app/download.jsp", asset: "/assets/source-sigtap.svg" },
 ];

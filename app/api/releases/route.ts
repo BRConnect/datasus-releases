@@ -26,8 +26,8 @@ type GitHubRelease = {
 
 const sourcePages: Record<ProgramId, string> = {
   SISAIH01: "http://sihd.datasus.gov.br/versao/versao_sisaih01.php",
-  BPA: "https://sia.datasus.gov.br/versao/listar_ftp_bpa.php",
-  SIA: "https://sia.datasus.gov.br/versao/listar_ftp_sia.php",
+  BPA: "http://sia.datasus.gov.br/versao/listar_ftp_bpa.php",
+  SIA: "http://sia.datasus.gov.br/versao/listar_ftp_sia.php",
   CIHA01: "https://ciha.saude.gov.br/versao/versao_ciha1.php",
   SIGTAP: "http://sigtap.datasus.gov.br/tabela-unificada/app/download.jsp",
 };
