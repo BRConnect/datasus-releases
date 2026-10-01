@@ -8,7 +8,7 @@ import { getReleasesRepository } from "@/lib/config";
 import type { ProgramId, ReleaseItem, ReleasesPayload } from "@/lib/releases";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 300;
+export const revalidate = 0;
 export const runtime = "nodejs";
 
 type GitHubAsset = { name: string; size: number; browser_download_url: string; updated_at: string };
@@ -150,7 +150,7 @@ export async function GET() {
   const repository = getReleasesRepository();
   const response = await fetch(`https://api.github.com/repos/${repository}/releases?per_page=100`, {
     headers: { Accept: "application/vnd.github+json", "User-Agent": "datasus-releases-catalog" },
-    next: { revalidate: 300 },
+    cache: "no-store",
   });
 
   if (!response.ok) {
@@ -183,5 +183,5 @@ export async function GET() {
   });
 
   const payload: ReleasesPayload = { generatedAt: new Date().toISOString(), repository, releases: items };
-  return NextResponse.json(payload, { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600" } });
+  return NextResponse.json(payload, { headers: { "Cache-Control": "no-store, max-age=0, must-revalidate" } });
 }
