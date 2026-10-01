@@ -71,6 +71,13 @@ function releaseRank(release: GitHubRelease, program: ProgramId) {
   return value ? Number(value[1]) * 10_000 + Number(value[2]) * 100 + Number(value[3]) : 0;
 }
 
+function isNewerRelease(candidate: GitHubRelease, current: GitHubRelease, program: ProgramId) {
+  const candidateRank = releaseRank(candidate, program);
+  const currentRank = releaseRank(current, program);
+  if (candidateRank !== currentRank) return candidateRank > currentRank;
+  return new Date(candidate.published_at ?? candidate.created_at).getTime() > new Date(current.published_at ?? current.created_at).getTime();
+}
+
 function artifactVersion(program: ProgramId, filename: string, tag: string) {
   if (program === "SISAIH01") {
     const value = /sisaih01_ver(\d{2})(\d+)\.exe/i.exec(filename);
@@ -111,7 +118,10 @@ function dateLabel(value: string) {
 
 function sourcePage(program: ProgramId, body: string | null) {
   const match = /Origem:\s*(https?:\/\/[^\s]+)/i.exec(body ?? "");
-  return match?.[1] ?? sourcePages[program];
+  const source = match?.[1] ?? sourcePages[program];
+  // SIH e SIGTAP ainda expõem seus portais com certificado TLS inválido.
+  // HTTP é o endereço funcional publicado pelo próprio DATASUS para consulta.
+  return source.replace(/^https:\/\/(sihd\.datasus\.gov\.br|sigtap\.datasus\.gov\.br)\b/i, "http://$1");
 }
 
 function makeItems(release: GitHubRelease, program: ProgramId): ReleaseItem[] {
@@ -162,7 +172,7 @@ export async function GET() {
     const program = getProgram(release.tag_name);
     if (!program) continue;
     const previous = currentByProgram.get(program);
-    if (!previous || releaseRank(release, program) > releaseRank(previous, program)) {
+    if (!previous || isNewerRelease(release, previous, program)) {
       currentByProgram.set(program, release);
     }
   }
