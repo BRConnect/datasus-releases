@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-01T20:10:00.000Z",
+  "generatedAt": "2026-10-03T14:28:08.637Z",
   "repository": "BRConnect/datasus-releases",
   "releases": [
     {
@@ -24,22 +24,22 @@
       "filename": "BPAMAG0500.exe",
       "size": "7,4 MB",
       "sourceUrl": "ftp://arpoador.datasus.gov.br/siasus/BPA/BPAMAG0500.exe",
-      "sourcePage": "https://sia.datasus.gov.br/versao/listar_ftp_bpa.php",
+      "sourcePage": "http://sia.datasus.gov.br/versao/listar_ftp_bpa.php",
       "publishedLabel": "09-Jul-2026",
       "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/bpa-v05-00/BPAMAG0500.exe",
       "delivery": "github-release"
     },
     {
-      "id": "sia-202608a",
+      "id": "sia-202609a",
       "program": "SIA",
       "programName": "Banco de Dados do SIA",
-      "version": "2026.08a",
-      "filename": "BDSIA202608a.exe",
-      "size": "9,3 MB",
-      "sourceUrl": "ftp://arpoador.datasus.gov.br/siasus/sia/BDSIA202608a.exe",
-      "sourcePage": "https://sia.datasus.gov.br/versao/listar_ftp_sia.php",
-      "publishedLabel": "21-Aug-2026",
-      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sia-bd-202608a/BDSIA202608a.exe",
+      "version": "2026.09a",
+      "filename": "BDSIA202609a.exe",
+      "size": "9,4 MB",
+      "sourceUrl": "ftp://arpoador.datasus.gov.br/siasus/sia/BDSIA202609a.exe",
+      "sourcePage": "http://sia.datasus.gov.br/versao/listar_ftp_sia.php",
+      "publishedLabel": "24-Sep-2026",
+      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sia-bd-202609a/BDSIA202609a.exe",
       "delivery": "github-release"
     },
     {
@@ -56,17 +56,17 @@
       "delivery": "github-release"
     },
     {
-      "id": "sigtap-202609",
+      "id": "sigtap-202608",
       "program": "SIGTAP",
       "programName": "Tabela de Procedimentos, Medicamentos e OPM do SUS",
-      "version": "09/2026",
-      "filename": "TabelaUnificada_202609_v2609171117.zip",
+      "version": "08/2026",
+      "filename": "TabelaUnificada_202608_v2608141139.zip",
       "size": "Conforme arquivo oficial",
-      "sourceUrl": "ftp://ftp2.datasus.gov.br/pub/sistemas/tup/downloads/TabelaUnificada_202609_v2609171117.zip",
+      "sourceUrl": "ftp://ftp2.datasus.gov.br/pub/sistemas/tup/downloads/TabelaUnificada_202608_v2608141139.zip",
       "sourcePage": "http://sigtap.datasus.gov.br/tabela-unificada/app/download.jsp",
-      "publishedLabel": "Competência 09/2026",
-      "competence": "09/2026",
-      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sigtap-202609-v2609171117/TabelaUnificada_202609_v2609171117.zip",
+      "publishedLabel": "Competência 08/2026",
+      "competence": "08/2026",
+      "downloadUrl": "https://github.com/BRConnect/datasus-releases/releases/download/sigtap-202608-v2608141139/TabelaUnificada_202608_v2608141139.zip",
       "delivery": "github-release"
     }
   ]
